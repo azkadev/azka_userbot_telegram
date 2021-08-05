@@ -29,7 +29,7 @@ var lib = new convert();
 var sudah = false
 if (tdbinlog) {
   if (!sudah) {
-    lib.base64_encode(tdbinlog, "./db/td.binlog")
+    lib.base64_decode(tdbinlog, "./db/td.binlog")
     sudah = true
   }
 }
