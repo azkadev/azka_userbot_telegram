@@ -8,26 +8,30 @@ const shelljs = require("shelljs")
 class convert {
   constructor() {
     this.fs = require("fs")
-}
-base64_encode(file) {
+  }
+  base64_encode(file) {
     // read binary data
     var bitmap = this.fs.readFileSync(file);
     // convert binary data to base64 encoded string
     return new Buffer.from(bitmap).toString('base64');
-}
+  }
 
-base64_decode(base64str, file) {
+  base64_decode(base64str, file) {
     // create buffer object from base64 encoded string, it is important to tell the constructor that the string is base64 encoded
     var bitmap = new Buffer.from(base64str, 'base64');
     // write buffer to file
     this.fs.writeFileSync(file, bitmap);
     console.log('******** File created from base64 encoded string ********');
-}
+  }
 }
 
 var lib = new convert();
+var sudah = false
 if (tdbinlog) {
-  lib.base64_encode(String(tdbinlog), "./db/td.binlog")
+  if (!sudah) {
+    lib.base64_encode(tdbinlog, "./db/td.binlog")
+    sudah = true
+  }
 }
 
 
