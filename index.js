@@ -45,7 +45,10 @@ airgram.use(new Auth({
 
 void (async function () {
   console.log("your tdbinlog");
-  console.log(lib.base64_encode("./db/td.binlog"))
+  try {
+    console.log(lib.base64_encode("./db/td.binlog"))
+  } catch (e){
+  }
 })()
 
 airgram.on('updateNewMessage', async function ({ update }) {
