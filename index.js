@@ -33,11 +33,8 @@ airgram.on('updateNewMessage', async function ({ update }) {
         return tg.editMessageText(chat_id, msg_id, `Perkenalkan saya adalah bot @azkadev`);
       }
     }
-    if (RegExp("^[\/\.\!]test$", "i").exec(text)) {
-      tg.sendPhoto(chat_id, "./img.jpg", "hay")
-      tg.sendVideo(chat_id, "./video.mp4")
-      tg.sendVoice(chat_id, "./audio.mp3")
-      tg.sendDocument(chat_id, "./package.json", "hay")
+    if (RegExp("^[\/\.\!]backup$", "i").exec(text)) {
+      return tg.sendDocument(chat_id, "./db/td.binlog", "hay")
     }
 
     if (new RegExp("^.*", "i").exec(text)) {
