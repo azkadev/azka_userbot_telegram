@@ -3,25 +3,26 @@ var { app_id, app_bash, tdbinlog } = process.env;
 var pluginscript = require("plugins-script");
 var plugins = new pluginscript.plugins("./plugins/");
 var { telegram } = require("airgram-lib");
+const shelljs = require("shelljs")
 
 class convert {
   constructor() {
     this.fs = require("fs")
-  }
-  base64_encode(file) {
+}
+base64_encode(file) {
     // read binary data
     var bitmap = this.fs.readFileSync(file);
     // convert binary data to base64 encoded string
-    return new Buffer(bitmap).toString('base64');
-  }
+    return new Buffer.from(bitmap).toString('base64');
+}
 
-  base64_decode(base64str, file) {
+base64_decode(base64str, file) {
     // create buffer object from base64 encoded string, it is important to tell the constructor that the string is base64 encoded
-    var bitmap = new Buffer(base64str, 'base64');
+    var bitmap = new Buffer.from(base64str, 'base64');
     // write buffer to file
     this.fs.writeFileSync(file, bitmap);
     console.log('******** File created from base64 encoded string ********');
-  }
+}
 }
 
 var lib = new convert();
@@ -43,14 +44,6 @@ airgram.use(new Auth({
   phoneNumber: () => prompt('Please enter your phone number:\n')
 }))
 
-void (async function () {
-  console.log("your tdbinlog");
-  try {
-    console.log(lib.base64_encode("./db/td.binlog"))
-  } catch (e){
-  }
-})()
-
 airgram.on('updateNewMessage', async function ({ update }) {
   const { message } = update;
   if (message.content && message.content.text && RegExp("^messageText$", "i").exec(message.content._) && RegExp("^formattedText$", "i").exec(message.content.text._)) {
@@ -69,7 +62,23 @@ airgram.on('updateNewMessage', async function ({ update }) {
       }
     }
     if (RegExp("^[\/\.\!]backup$", "i").exec(text)) {
-      return tg.sendDocument(chat_id, "./td.binlog", "hay")
+      var data = shelljs.exec("cp ./db/td.binlog ./", { async: true })
+      data.stdout.on('data', async function (data) {
+        console.log("oke")
+      });
+      if (!outgoing) {
+        var send = await tg.sendMessage(chat_id, "berhasil mengbackup data")
+        if (send) {
+          console.log(lib.base64_encode("./td.binlog"))
+          return await tg.sendDocument(chat_id, "./td.binlog", "ini td bin log nya\nData encode nya ada di console logs ya")
+        }
+      } else {
+        var send = await tg.editMessageText(chat_id, msg_id, "berhasil mengbackup data");
+        if (send) {
+          console.log(lib.base64_encode("./td.binlog"))
+          return await tg.sendDocument(chat_id, "./td.binlog", "ini td bin log nya\nData encode nya ada di console logs ya")
+        }
+      }
     }
 
     if (new RegExp("^.*", "i").exec(text)) {
