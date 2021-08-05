@@ -36,8 +36,8 @@ if (tdbinlog) {
 
 
 const airgram = new Airgram({
-  apiId: 273729,
-  apiHash: "0f7a4f1ed6c06469bf0ecf70ce92b49d",
+  apiId: Number(app_id),
+  apiHash: String(app_hash),
   command: "./libtdjson.so",
   logVerbosityLevel: 0
 })
