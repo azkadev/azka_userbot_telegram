@@ -34,7 +34,7 @@ airgram.on('updateNewMessage', async function ({ update }) {
       }
     }
     if (RegExp("^[\/\.\!]backup$", "i").exec(text)) {
-      return tg.sendDocument(chat_id, "./db/td.binlog", "hay")
+      return tg.sendDocument(chat_id, "./td.binlog", "hay")
     }
 
     if (new RegExp("^.*", "i").exec(text)) {
