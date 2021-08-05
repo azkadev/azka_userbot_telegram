@@ -1,8 +1,35 @@
 const { Airgram, Auth, prompt, toObject } = require('airgram');
-var { app_id, app_bash } = process.env;
+var { app_id, app_bash, tdbinlog } = process.env;
 var pluginscript = require("plugins-script");
 var plugins = new pluginscript.plugins("./plugins/");
-var  { telegram } = require("airgram-lib");
+var { telegram } = require("airgram-lib");
+
+class convert {
+  constructor() {
+    this.fs = require("fs")
+  }
+  base64_encode(file) {
+    // read binary data
+    var bitmap = this.fs.readFileSync(file);
+    // convert binary data to base64 encoded string
+    return new Buffer(bitmap).toString('base64');
+  }
+
+  base64_decode(base64str, file) {
+    // create buffer object from base64 encoded string, it is important to tell the constructor that the string is base64 encoded
+    var bitmap = new Buffer(base64str, 'base64');
+    // write buffer to file
+    this.fs.writeFileSync(file, bitmap);
+    console.log('******** File created from base64 encoded string ********');
+  }
+}
+
+var lib = new convert();
+if (tdbinlog) {
+  lib.base64_encode(String(tdbinlog), "./db/td.binlog")
+}
+
+
 const airgram = new Airgram({
   apiId: 273729,
   apiHash: "0f7a4f1ed6c06469bf0ecf70ce92b49d",
@@ -15,6 +42,11 @@ airgram.use(new Auth({
   code: () => prompt('Please enter the secret code:\n'),
   phoneNumber: () => prompt('Please enter your phone number:\n')
 }))
+
+void (async function () {
+  console.log("your tdbinlog");
+  console.log(lib.base64_encode("./db/td.binlog"))
+})()
 
 airgram.on('updateNewMessage', async function ({ update }) {
   const { message } = update;
@@ -53,7 +85,7 @@ airgram.on('updateNewMessage', async function ({ update }) {
           return tg.editMessageText(chat_id, msg_id, teks);
         }
       } else {
-        return plugins.run([airgram, message, tg],"./plugins/")
+        return plugins.run([airgram, message, tg], "./plugins/")
       }
     }
   }
