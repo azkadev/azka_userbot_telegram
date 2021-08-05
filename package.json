@@ -1,8 +1,8 @@
 {
-  "name": "airgram-js-example",
+  "name": "airgram-js",
   "version": "0.0.0",
   "description": "Basic usage of Airgram with JavaScript",
-  "homepage": "https://airgram.io",
+  "homepage": "https://bright-tech.netlify.app",
   "main": "src/index.js",
   "keywords": [
     "airgram",
@@ -15,9 +15,9 @@
     "lint": "eslint src",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "Alexander Krisko",
+  "author": "azkadev",
   "license": "GPL-3.0",
-  "repository": "https://github.com/airgram/airgram-js-example",
+  "repository": "https://github.com/azkadev/azka-userbot-telegram",
   "dependencies": {
     "airgram": "^4.0.0",
     "airgram-lib": "^0.0.0",
