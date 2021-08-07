@@ -1,5 +1,5 @@
 const { Airgram, Auth, prompt, toObject } = require('airgram');
-var { app_id, app_bash, tdbinlog } = process.env;
+var { app_id, app_hash, tdbinlog } = process.env;
 var pluginscript = require("plugins-script");
 var plugins = new pluginscript.plugins("./plugins/");
 var { telegram } = require("airgram-lib");
