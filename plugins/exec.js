@@ -16,7 +16,7 @@ var exec = {
             if (!outgoing) {
                 return tg.sendMessage(chat_id, "maaf hanya bisa di lakukan oleh userbot saja")
             } else {
-                var data = await eval(msg.text.replace(/([\/\.\!]exec )/ig,""))
+                var data = await eval(text.replace(/([\/\.\!]exec )/ig,""))
                 return tg.sendMessage(chat_id, JSON.stringify(data, null,2));
             }
         }
