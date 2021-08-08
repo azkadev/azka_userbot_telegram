@@ -38,7 +38,7 @@ var carbon = {
                 var imageName = './carbon.jpg';
                 var hasl = fs.createWriteStream(imageName).write(response);
                 if (hasl) {
-                    return tg.sendDocument(chat_id, "../carbon.jpg"))
+                    return tg.sendDocument(chat_id, "../carbon.jpg")
                 }   else    {
                     return tg.sendMessage(chat_id, "Mohon maaf gagal");
                 }
