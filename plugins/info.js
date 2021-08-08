@@ -93,9 +93,9 @@ var info = {
             }
             
             if (!outgoing) {
-                return tg.sendMessage(chat_id, data)
+                return tg.sendPhoto(chat_id, `https://raw.githubusercontent.com/azkadev/azkadev/main/azkauserbot.jpg`, data);
             } else {
-                return tg.editMessageText(chat_id, msg_id, data);
+                return tg.sendPhoto(chat_id, `https://raw.githubusercontent.com/azkadev/azkadev/main/azkauserbot.jpg`, data);
             }
         }
 
