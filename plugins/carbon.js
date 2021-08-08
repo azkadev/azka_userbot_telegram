@@ -19,7 +19,7 @@ var carbon = {
             if (!outgoing) {
                 return tg.sendMessage(chat_id, "Hanya pemilik yang bisa melakukanya");
             } else {
-                return tg.sendDocument(chat_id, `https://carbonnowsh.herokuapp.com/?code=${encodeURI(text.replace(/([\/\.\!]carbon )/ig,""))}&theme=darcula&backgroundColor=rgba(144, 19, 254, 100)`)   
+                return tg.sendPhoto(chat_id, `https://carbonnowsh.herokuapp.com/?code=${encodeURI(text.replace(/([\/\.\!]carbon )/ig,""))}&theme=darcula&backgroundColor=rgba(144, 19, 254, 100)`)   
             }
         }
     }
