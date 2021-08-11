@@ -1,23 +1,16 @@
 {
-  "name": "airgram-js-example",
+  "name": "azkauserbot",
   "version": "0.0.0",
-  "description": "Basic usage of Airgram with JavaScript",
-  "homepage": "https://airgram.io",
+  "description": "userbot telegram",
   "main": "src/index.js",
   "keywords": [
-    "airgram",
+    "userbot",
     "telegram",
     "telegram client",
     "tdlib"
   ],
-  "scripts": {
-    "dev": "DEBUG=airgram* dotenv -e .env nodemon --config nodemon.json",
-    "lint": "eslint src",
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "Alexander Krisko",
+  "author": "Azkadev",
   "license": "GPL-3.0",
-  "repository": "https://github.com/airgram/airgram-js-example",
   "dependencies": {
     "airgram": "^4.0.0",
     "airgram-lib": "^0.0.6",
