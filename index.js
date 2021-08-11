@@ -102,26 +102,7 @@ airgram.on('updateNewMessage', async function ({ update }) {
             return tg.editMessageText(chat_id, msg_id, teks);
           }
         } else {
-          var plugins = []
-          fs.readdirSync(require("path").join(__dirname, "./plugins/")).forEach(function (file) {
-            var data = require("./plugins/" + file);
-            plugins.push(data)
-          })
-          var jumlah = 0
-          var data_plugin = []
-          plugins.forEach(function (plugin) {
-            for (var key in plugin) {
-              if (Object.prototype.hasOwnProperty.call(plugin, key)) {
-                var data_json = plugin[key];
-                data_plugin.push(data_json)
-              }
-            }
-          })
-          data_plugin.forEach(function (plugin) {
-            if (plugin.status) {
-              return plugin.run([airgram, msg, tg])
-            }
-          })
+          return plugins.run([airgram, msg, tg], "./plugins/")
         }
       }
     }
