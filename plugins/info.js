@@ -75,14 +75,15 @@ var info = {
     clue: ['Fungsi: Test respon bot', 'Format: <code>/info</code>'],
     run: async function (update) {
         var airgram = update[0];
-        var message = update[1];
+        var msg = update[1];
         var tg = update[2]
-        var chat_id = message.chatId;
-        var user_id = message.sender.userId;
-        var msg_id = message.id;
-        var msgr_id = message.replyToMessageId ? message.replyToMessageId : false;
-        var text = message.content.text.text ? message.content.text.text : false;
-        var outgoing = message.isOutgoing ? true : false;
+        var chat_id = msg.chat.id;
+        var user_id = msg.from.id;
+        var chat_type = msg.chat.type;
+        var text = msg.text;
+        var msg_id = msg.message_id;
+        var msgr = msg.reply_to_message ? msg.reply_to_message : false;
+        var outgoing = msg.outgoing ? true : false;
 
         if (new RegExp("^\/info$", "i").exec(text)) {
             try {
@@ -93,9 +94,9 @@ var info = {
             }
             
             if (!outgoing) {
-                return tg.sendPhoto(chat_id, `https://raw.githubusercontent.com/azkadev/azkadev/main/azkauserbot.jpg`, data);
+                return tg.sendMessage(chat_id, data)
             } else {
-                return tg.sendPhoto(chat_id, `https://raw.githubusercontent.com/azkadev/azkadev/main/azkauserbot.jpg`, data);
+                return tg.editMessageText(chat_id, msg_id, data);
             }
         }
 
