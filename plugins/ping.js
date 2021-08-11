@@ -14,7 +14,7 @@ var ping = {
         var msgr = msg.reply_to_message ? msg.reply_to_message : false;
         var outgoing = msg.outgoing ? true : false;
         if (RegExp("^[\/\.\!]ping$", "i").exec(text)) {
-            var time = (Date.now() / 1000) - message.date
+            var time = (Date.now() / 1000) - msg.date
             var data = `Pong ${time.toFixed(3)}`
             if (!outgoing) {
                 return tg.sendMessage(chat_id, data)
