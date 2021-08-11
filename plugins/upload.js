@@ -13,7 +13,7 @@ var upload = {
         var msg_id = msg.message_id;
         var msgr = msg.reply_to_message ? msg.reply_to_message : false;
         var outgoing = msg.outgoing ? true : false;
-        var outgoing = message.isOutgoing ? true : false;
+        
         if (RegExp("^[\/\.\!]udoc ", "i").exec(text)) {
             return tg.sendDocument(chat_id, text.replace(/(^[\/\.\!]udoc )/ig,"")).catch(function(e){
                 return tg.sendMessage(chat_id, `Error ${e.message}`)
