@@ -1,2 +1,1 @@
-# azka-userbot-telegram
-![](https://raw.githubusercontent.com/azkadev/azkadev/main/azkauserbot.jpg)
+[Cara Deploy](https://github.com/azkadev/azka-userbot-telegram)
