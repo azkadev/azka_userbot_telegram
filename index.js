@@ -4,6 +4,7 @@ var pluginscript = require("plugins-script");
 var plugins = new pluginscript.plugins("./plugins/");
 var { telegram, update } = require("airgram-lib");
 const shelljs = require("shelljs")
+var fs = require("fs");
 
 class convert {
   constructor() {
