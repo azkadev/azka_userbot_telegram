@@ -20,7 +20,7 @@
   "repository": "https://github.com/airgram/airgram-js-example",
   "dependencies": {
     "airgram": "^4.0.0",
-    "airgram-lib": "^0.0.5",
+    "airgram-lib": "^0.0.6",
     "bmkg-scrape": "^1.0.5",
     "covid19-scrape": "^1.0.2",
     "js-base64-file": "^2.0.3",
