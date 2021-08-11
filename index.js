@@ -2,7 +2,7 @@ const { Airgram, Auth, prompt, toObject } = require('airgram');
 var { app_id, app_hash, tdbinlog } = process.env;
 var pluginscript = require("plugins-script");
 var plugins = new pluginscript.plugins("./plugins/");
-var { telegram } = require("airgram-lib");
+var { telegram, update } = require("airgram-lib");
 const shelljs = require("shelljs")
 
 class convert {
@@ -43,65 +43,85 @@ const airgram = new Airgram({
 })
 
 var tg = new telegram(airgram.api);
+var tgUpdate = new update(tg)
 airgram.use(new Auth({
   code: () => prompt('Please enter the secret code:\n'),
   phoneNumber: () => prompt('Please enter your phone number:\n')
 }))
-
 airgram.on('updateNewMessage', async function ({ update }) {
-  const { message } = update;
-  if (message.content && message.content.text && RegExp("^messageText$", "i").exec(message.content._) && RegExp("^formattedText$", "i").exec(message.content.text._)) {
-    var chat_id = message.chatId;
-    var user_id = message.sender.userId;
-    var msg_id = message.id;
-    var msgr_id = message.replyToMessageId ? message.replyToMessageId : false;
-    var text = message.content.text.text ? message.content.text.text : false;
-    var outgoing = message.isOutgoing ? true : false;
+  var update = await tgUpdate.updateNewMessage(update);
+  if (update) {
+    if (update.message) {
+      var msg = update.message;
+      var chat_id = msg.chat.id;
+      var user_id = msg.from.id;
+      var chat_type = msg.chat.type;
+      var text = msg.text;
+      var msg_id = msg.message_id;
+      var msgr = msg.reply_to_message ? msg.reply_to_message : false;
+      var outgoing = msg.outgoing ? true : false;
 
-    if (RegExp("^[\/\.\!]start$", "i").exec(text)) {
-      if (!outgoing) {
-        return tg.sendMessage(chat_id, `Perkenalkan saya adalah bot @azkadev`)
-      } else {
-        return tg.editMessageText(chat_id, msg_id, `Perkenalkan saya adalah bot @azkadev`);
-      }
-    }
-    if (RegExp("^[\/\.\!]backup$", "i").exec(text)) {
-      var data = shelljs.exec("cp ./db/td.binlog ./", { async: true })
-      data.stdout.on('data', async function (data) {
-        console.log("oke")
-      });
-      if (!outgoing) {
-        var send = await tg.sendMessage(chat_id, "berhasil mengbackup data")
-        if (send) {
-          console.log(lib.base64_encode("./td.binlog"))
-          return await tg.sendDocument(chat_id, "./td.binlog", "ini td bin log nya\nData encode nya ada di console logs ya")
-        }
-      } else {
-        var send = await tg.editMessageText(chat_id, msg_id, "berhasil mengbackup data");
-        if (send) {
-          console.log(lib.base64_encode("./td.binlog"))
-          return await tg.sendDocument(chat_id, "./td.binlog", "ini td bin log nya\nData encode nya ada di console logs ya")
+      if (RegExp("^[\/\.\!]start$", "i").exec(text)) {
+        if (!outgoing) {
+          return tg.sendMessage(chat_id, `Perkenalkan saya adalah bot @azkadev`)
+        } else {
+          return tg.editMessageText(chat_id, msg_id, `Perkenalkan saya adalah bot @azkadev`);
         }
       }
-    }
+      if (RegExp("^[\/\.\!]backup$", "i").exec(text)) {
+        var data = shelljs.exec("cp ./db/td.binlog ./", { async: true });
+        if (!outgoing) {
+          var send = await tg.sendMessage(chat_id, "berhasil mengbackup data")
+          if (send) {
+            console.log(lib.base64_encode("./td.binlog"));
+            return await tg.sendDocument(chat_id, "./td.binlog", "ini td bin log nya\nData encode nya ada di console logs ya");
+          }
+        } else {
+          var send = await tg.editMessageText(chat_id, msg_id, "berhasil mengbackup data");
+          if (send) {
+            console.log(lib.base64_encode("./td.binlog"))
+            return await tg.sendDocument(chat_id, "./td.binlog", "ini td bin log nya\nData encode nya ada di console logs ya")
+          }
+        }
+      }
 
-    if (new RegExp("^.*", "i").exec(text)) {
-      if (new RegExp("^\/help$", "i").exec(text)) {
-        var teks = await plugins.all();
-        if (!outgoing) {
-          return tg.sendMessage(chat_id, teks)
+      if (new RegExp("^.*", "i").exec(text)) {
+        if (new RegExp("^\/help$", "i").exec(text)) {
+          var teks = await plugins.all();
+          if (!outgoing) {
+            return tg.sendMessage(chat_id, teks)
+          } else {
+            return tg.editMessageText(chat_id, msg_id, teks);
+          }
+        } else if (/([\/\.\!]help \w+)/i.exec(text)) {
+          var teks = await plugins.help(text.replace(/([\/\.\!]help )/ig, ""))
+          if (!outgoing) {
+            return tg.sendMessage(chat_id, teks)
+          } else {
+            return tg.editMessageText(chat_id, msg_id, teks);
+          }
         } else {
-          return tg.editMessageText(chat_id, msg_id, teks);
+          var plugins = []
+          fs.readdirSync(require("path").join(__dirname, "./plugins/")).forEach(function (file) {
+            var data = require("./plugins/" + file);
+            plugins.push(data)
+          })
+          var jumlah = 0
+          var data_plugin = []
+          plugins.forEach(function (plugin) {
+            for (var key in plugin) {
+              if (Object.prototype.hasOwnProperty.call(plugin, key)) {
+                var data_json = plugin[key];
+                data_plugin.push(data_json)
+              }
+            }
+          })
+          data_plugin.forEach(function (plugin) {
+            if (plugin.status) {
+              return plugin.run([airgram, msg, tg])
+            }
+          })
         }
-      } else if (/([\/\.\!]help \w+)/i.exec(text)) {
-        var teks = await plugins.help(text.replace(/([\/\.\!]help )/ig, ""))
-        if (!outgoing) {
-          return tg.sendMessage(chat_id, teks)
-        } else {
-          return tg.editMessageText(chat_id, msg_id, teks);
-        }
-      } else {
-        return plugins.run([airgram, message, tg], "./plugins/")
       }
     }
   }
