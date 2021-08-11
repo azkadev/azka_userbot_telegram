@@ -3,10 +3,7 @@ var pinterest = {
     name: 'pnterest',
     status: true,
     clue: ['Fungsi: upload file', 'Format: /pinterest ronaldo'],
-    run: async function (update) {
-        var airgram = update[0];
-        var msg = update[1];
-        var tg = update[2]
+    run: async function (airgram, msg,tg) {
         var chat_id = msg.chat.id;
         var user_id = msg.from.id;
         var chat_type = msg.chat.type;

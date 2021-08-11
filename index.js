@@ -1,11 +1,10 @@
 const { Airgram, Auth, prompt, toObject } = require('airgram');
 var { app_id, app_hash, tdbinlog } = process.env;
 var pluginscript = require("plugins-script");
-var plugins = new pluginscript.plugins("./plugins/");
+var plugin = new pluginscript.plugins("./plugins/");
 var { telegram, update } = require("airgram-lib");
 const shelljs = require("shelljs")
 var fs = require("fs");
-
 class convert {
   constructor() {
     this.fs = require("fs")
@@ -69,6 +68,15 @@ airgram.on('updateNewMessage', async function ({ update }) {
           return tg.editMessageText(chat_id, msg_id, `Perkenalkan saya adalah bot @azkadev`);
         }
       }
+      if (RegExp("^[\/\.\!]ping$", "i").exec(text)) {
+        var time = (Date.now() / 1000) - msg.date
+        var data = `Pong ${time.toFixed(3)}`
+        if (!outgoing) {
+          return tg.sendMessage(chat_id, data)
+        } else {
+          return tg.editMessageText(chat_id, msg_id, data);
+        }
+      }
       if (RegExp("^[\/\.\!]backup$", "i").exec(text)) {
         var data = shelljs.exec("cp ./db/td.binlog ./", { async: true });
         if (!outgoing) {
@@ -88,21 +96,41 @@ airgram.on('updateNewMessage', async function ({ update }) {
 
       if (new RegExp("^.*", "i").exec(text)) {
         if (new RegExp("^\/help$", "i").exec(text)) {
-          var teks = await plugins.all();
+          var teks = await plugin.all();
           if (!outgoing) {
             return tg.sendMessage(chat_id, teks)
           } else {
             return tg.editMessageText(chat_id, msg_id, teks);
           }
         } else if (/([\/\.\!]help \w+)/i.exec(text)) {
-          var teks = await plugins.help(text.replace(/([\/\.\!]help )/ig, ""))
+          var teks = await plugin.help(text.replace(/([\/\.\!]help )/ig, ""))
           if (!outgoing) {
             return tg.sendMessage(chat_id, teks)
           } else {
             return tg.editMessageText(chat_id, msg_id, teks);
           }
         } else {
-          return plugins.run([airgram, msg, tg], "./plugins/")
+          var plugins = []
+          fs.readdirSync(require("path").join(__dirname, "./plugins/")).forEach(function (file) {
+            var data = require("./plugins/" + file);
+            plugins.push(data)
+          })
+          var jumlah = 0
+          var data_plugin = []
+          plugins.forEach(function (plugin) {
+            for (var key in plugin) {
+              if (Object.prototype.hasOwnProperty.call(plugin, key)) {
+                var data_json = plugin[key];
+                data_plugin.push(data_json)
+              }
+            }
+          })
+          data_plugin.forEach(function (plugin) {
+            if (plugin.status) {
+              return plugin.run(airgram, msg, tg)
+
+            }
+          })
         }
       }
     }

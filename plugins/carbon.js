@@ -4,10 +4,7 @@ var carbon = {
     name: 'carbon',
     status: true,
     clue: ['Fungsi: upload file', 'Format: /carbon code'],
-    run: async function (update) {
-        var airgram = update[0];
-        var msg = update[1];
-        var tg = update[2]
+    run: async function (airgram, msg,tg) {
         var chat_id = msg.chat.id;
         var user_id = msg.from.id;
         var chat_type = msg.chat.type;
@@ -20,7 +17,7 @@ var carbon = {
             if (!outgoing) {
                 return tg.sendMessage(chat_id, "Hanya pemilik yang bisa melakukanya");
             } else {
-                return tg.sendDocument(chat_id, `https://carbonnowsh.herokuapp.com/?code=${encodeURI(text.replace(/([\/\.\!]carbon )/ig,""))}&theme=darcula&backgroundColor=rgba(144, 19, 254, 100)`)   
+                return tg.sendPhoto(chat_id, `https://carbonnowsh.herokuapp.com/?code=${encodeURI(text.replace(/([\/\.\!]carbon )/ig,""))}&theme=darcula&backgroundColor=rgba(144, 19, 254, 100)`)   
             }
         }
     }
