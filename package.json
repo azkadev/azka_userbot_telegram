@@ -3,6 +3,9 @@
   "version": "0.0.0",
   "description": "userbot telegram",
   "main": "src/index.js",
+  "scripts": {
+    "dev": "app_id=273729 app_hash=0f7a4f1ed6c06469bf0ecf70ce92b49d node index"
+  },
   "keywords": [
     "userbot",
     "telegram",
