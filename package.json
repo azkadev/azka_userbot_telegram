@@ -12,6 +12,7 @@
   "author": "Azkadev",
   "license": "GPL-3.0",
   "dependencies": {
+    "@guidb/firestore": "^0.0.1",
     "airgram": "^4.0.0",
     "airgram-lib": "^0.0.6",
     "bmkg-scrape": "^1.0.5",
