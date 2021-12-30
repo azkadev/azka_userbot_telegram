@@ -172,13 +172,7 @@ var cur_user_id = "";
 telegramuser.on('update', async function (update) {
     try {
         if (update) {
-            if (RegExp("^updateMessageSendSucceeded$", "i").exec(update['_'])) {
-
-            } else if (RegExp("^updateConnectionState$", "i").exec(update['_'])) {
-
-            } else if (RegExp("^updateOption$", "i").exec(update['_'])) {
-
-            } else if (RegExp("^updateAuthorizationState$", "i").exec(update['_'])) {
+            if (RegExp("^updateAuthorizationState$", "i").exec(update['_'])) {
 
                 if (check_admin(client["admins_user_id"], cur_user_id)) {
                     if (RegExp(`^${get_auth_state[0]}$`, "i").exec(update["authorization_state"]['_'])) {
@@ -238,10 +232,13 @@ telegramuser.on('update', async function (update) {
                     }
                 }
             }
+
+            
+
         }
     } catch (e) {
         console.log(e.message);
-        await tg.sendMessage(cur_user_id, e.message);
+        return await tg.sendMessage(cur_user_id, e.message);
     }
 })
 
