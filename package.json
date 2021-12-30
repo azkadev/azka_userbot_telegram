@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node client"
+    "start": "node main"
   },
   "engines": {
     "node": "16.9.1"
@@ -15,6 +15,7 @@
   "author": "azkadev",
   "license": "ISC",
   "dependencies": {
+    "node-fetch": "^2.6.1",
     "tdl-lib": "^0.0.27"
   }
 }
