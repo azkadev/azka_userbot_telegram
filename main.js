@@ -7,7 +7,6 @@ var tg = new telegramApi(telegrambot.client);
 var tg_user = new telegramApi(telegramuser.client);
 
 var timer = require("timers/promises");
-var timers = require("timers");
 
 var get_auth_state = ['authorizationStateWaitPhoneNumber', 'authorizationStateWaitCode', 'authorizationStateWaitPassword', 'authorizationStateReady'];
 var set_auth_state = ['setAuthenticationPhoneNumber', 'checkAuthenticationCode', 'checkAuthenticationPassword'];

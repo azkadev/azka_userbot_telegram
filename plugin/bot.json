@@ -1,0 +1,22 @@
+{
+    "text": [
+        {
+            "triger": "^/start$",
+            "regex": true,
+            "respond": {
+                "method": "sendMessage",
+                "text": "hallo gais welcome back {chat_title}"
+            }
+        }
+    ],
+    "caption": [
+        {
+            "triger": "^/start$",
+            "regex": true,
+            "respond": {
+                "method": "sendMessage",
+                "text": "hallo gais welcome back {chat_title}"
+            }
+        }
+    ]
+}
