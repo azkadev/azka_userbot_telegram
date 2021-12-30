@@ -1,19 +1,20 @@
 {
-  "name": "beta",
-  "version": "1.0.0",
+  "name": "azkauserbot",
+  "version": "0.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node client"
   },
   "engines": {
     "node": "16.9.1"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "azkauserbot"
+  ],
+  "author": "azkadev",
   "license": "ISC",
   "dependencies": {
-    "lowdb": "^1.0.0",
-    "tdl-lib": "^0.0.11"
+    "tdl-lib": "^0.0.27"
   }
 }
