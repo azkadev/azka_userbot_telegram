@@ -6,6 +6,8 @@ var telegramuser = new telegram(client["app_id"], client["app_hash"], `./client/
 var tg = new telegramApi(telegrambot.client);
 var tg_user = new telegramApi(telegramuser.client);
 
+var fs = require("fs/promises");
+
 var timer = require("timers/promises");
 
 var get_auth_state = ['authorizationStateWaitPhoneNumber', 'authorizationStateWaitCode', 'authorizationStateWaitPassword', 'authorizationStateReady'];
@@ -43,6 +45,15 @@ telegrambot.client.on('destroy', function () {
 
 telegrambot.on('update', async function (update) {
     try {
+        
+        try {
+            var readConfig = JSON.parse(await fs.readFile(`${process.cwd()}/./plugin/bot.json`, {
+                "encoding": "utf8"
+            }));
+        } catch (e) {
+            var readConfig = false;
+        }
+
         if (update) {
             if (update["callback_query"]) {
                 var cb = update["callback_query"];
@@ -148,6 +159,29 @@ telegrambot.on('update', async function (update) {
 
                             }
                         }
+
+                        if (typeof readConfig == "object") {
+
+                            if (text && typeof readConfig["text"] == "object") {
+                                var readConfigText = readConfig["text"];
+                                for (var i = 0; i < readConfigText.length; i++) {
+                                    var loop_data = readConfigText[i];
+                                    if (typeof loop_data["trigger"] == "string") {
+                                        if (typeof loop_data["respond"] != "object") {
+                                            return;
+                                        }
+                                        if (loop_data["admin_only"]) {
+                                            if (!check_admin(client["admins_user_id"], user_id)) {
+                                                return;
+                                            }
+                                        }
+                                        var respond = loop_data["respond"];
+                                    }
+                                }
+                            }
+
+                        }
+
                     }
                 } catch (e) {
                     var data = {
@@ -178,17 +212,26 @@ async function sendAuthClientUser(param) {
 }
 
 telegramuser.client.on('error', function (err) {
-    console.error('Got error:', JSON.stringify(err, null, 2))
+    console.error('Got error:', JSON.stringify(err, null, 2));
 })
 
 telegramuser.client.on('destroy', function () {
-    console.log('Destroy event')
+    console.log('Destroy event');
 })
 
 var cur_user_id = "";
 
 telegramuser.on('update', async function (update) {
     try {
+
+        try {
+            var readConfig = JSON.parse(await fs.readFile(`${process.cwd()}/./plugin/user.json`, {
+                "encoding": "utf8"
+            }));
+        } catch (e) {
+            var readConfig = false;
+        }
+
         if (update) {
             if (RegExp("^updateAuthorizationState$", "i").exec(update['_'])) {
 
@@ -281,6 +324,28 @@ telegramuser.on('update', async function (update) {
                         }
 
                     }
+                    if (typeof readConfig == "object") {
+
+                        if (text && typeof readConfig["text"] == "object") {
+                            var readConfigText = readConfig["text"];
+                            for (var i = 0; i < readConfigText.length; i++) {
+                                var loop_data = readConfigText[i];
+                                if (typeof loop_data["trigger"] == "string") {
+                                    if (typeof loop_data["respond"] != "object") {
+                                        return;
+                                    }
+                                    if (loop_data["admin_only"]) {
+                                        if (!check_admin(client["admins_user_id"], user_id)) {
+                                            return;
+                                        }
+                                    }
+                                    var respond = loop_data["respond"];
+                                }
+                            }
+                        }
+
+                    }
+
 
                 } catch (e) {
                     var data = {

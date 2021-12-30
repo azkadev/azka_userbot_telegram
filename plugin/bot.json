@@ -3,10 +3,9 @@
         {
             "triger": "^/start$",
             "regex": true,
-            "respond": {
-                "method": "sendMessage",
-                "text": "hallo gais welcome back {chat_title}"
-            }
+            "admin_only": false,
+            "respond": [
+            ]
         }
     ],
     "caption": [
