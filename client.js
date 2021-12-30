@@ -1,6 +1,6 @@
 var client = {
-    "app_id": Number(process.env.app_id ?? 1212),
-    "app_hash": String(process.env.app_hash ?? "as"),
+    "app_id": Number(process.env.app_id ?? 5220087),
+    "app_hash": String(process.env.app_hash ?? "0c21ac5e2bec1cce2665bc81739d7bb8"),
     "token_bot": String(process.env.token_bot ?? ""),
     "bot_user_id": Number(String(process.env.token_bot).split(":")[0]),
     "user_user_id": Number(process.env.user_user_id ?? 0),

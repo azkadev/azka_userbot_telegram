@@ -97,16 +97,36 @@ telegrambot.on('update', async function (update) {
                             }
 
                             if (RegExp("/ping", "i").exec(text)) {
-                                var time = (Date.now() / 1000) - msg.date;
+                                var time = (Date.now() / 1000) - msg["date"];
                                 var data = {
                                     "chat_id": chat_id,
                                     "text": `Pong ${time.toFixed(3)}`
                                 };
                                 return await tg.request("sendMessage", data);
                             }
+
+
                             if (RegExp("^private$", "i").exec(chat_type)) {
-                                if (/^(-.* )/i.exec(text)) {
-                                    if (acces_data(client["admins_user_id"], user_id)) {
+                                if (acces_data(client["admins_user_id"], user_id)) {
+                                    if (RegExp("^/account$", "i").exec(text)) {
+                                        var data = {
+                                            "chat_id": chat_id,
+                                            "text": "Account",
+                                            "reply_markup": {
+                                                "inline_keyboard": [
+                                                    [
+                                                        {
+                                                            "text": "Login User Bot",
+                                                            "callback_data": "login"
+                                                        }
+                                                    ]
+                                                ]
+                                            }
+                                        };
+                                        return await tg.request("sendMessage", data);
+                                    }
+                                    if (/^(-.* )/i.exec(text)) {
+                                        await tg.sendMessage(chat_id, "Please Wait");
                                         var input = String(text).split(" ");
                                         var param = {};
                                         if (input.length == 2) {
@@ -115,15 +135,16 @@ telegrambot.on('update', async function (update) {
                                                     curAuthData[type_auth_state[x]] = input[1];
                                                     param["_"] = set_auth_state[x];
                                                     param[type_auth_state[x]] = curAuthData[type_auth_state[x]];
-                                                    await timers.setTimeout(2000);
-                                                    return sendAuthClientUser(param);
+                                                    await timer.setTimeout(2000);
+                                                    return await sendAuthClientUser(param);
                                                 }
                                             }
                                         }
                                         return await tg.sendMessage(chat_id, "ulangi lagi!");
-                                    } else {
-                                        return await tg.sendMessage(chat_id, "Khusus admin ya!");
+
                                     }
+                                } else {
+                                    return await tg.sendMessage(chat_id, "Oops command ini khusus admin tolong kamu jangan pakai ya!");
                                 }
 
                             }
@@ -147,12 +168,10 @@ telegrambot.on('update', async function (update) {
 })
 
 
-function sendAuthClientUser(param) {
+async function sendAuthClientUser(param) {
     try {
-        telegramuser.client.invoke(param).catch(e => {
-            return false
-        })
-        return true
+        await telegramuser.client.invoke(param);
+        return true;
     } catch (e) {
         console.log(e)
         return false
@@ -177,7 +196,7 @@ telegramuser.on('update', async function (update) {
                 if (check_admin(client["admins_user_id"], cur_user_id)) {
                     if (RegExp(`^${get_auth_state[0]}$`, "i").exec(update["authorization_state"]['_'])) {
                         curAuthState[cur_user_id] = get_auth_state[0];
-                        return await tg.sendMessage(cur_user_id, "Silakan ketik <b>Nomor Ponsel</b>\nformat <code>-phone_number " + phone_number + "</code>", "HTML");
+                        return await tg.sendMessage(cur_user_id, "Silakan ketik <b>Nomor Ponsel</b>\nformat <code>-phone_number " + client["phone_number"] + "</code>", "HTML");
                     }
 
                     if (RegExp(`^${get_auth_state[1]}$`, "i").exec(update["authorization_state"]['_'])) {
@@ -233,7 +252,47 @@ telegramuser.on('update', async function (update) {
                 }
             }
 
-            
+
+            if (update["message"]) {
+                var msg = update["message"];
+                var chat_id = msg["chat"]["id"];
+                var user_id = msg["from"]["id"];
+                var chat_type = String(msg["chat"]["type"]).replace(/(super)/i, "");
+                var text = msg["text"] ?? "";
+                var is_outgoing = msg["outgoing"] ?? false;
+                try {
+
+                    if (text) {
+
+                        if (RegExp("^/jsondump$", "i").exec(text)) {
+                            var data = {
+                                "chat_id": chat_id,
+                                "text": JSON.stringify(msg, null, 2)
+                            };
+                            return await tg_user.request("sendMessage", data);
+                        }
+
+                        if (RegExp("/ping", "i").exec(text)) {
+                            var time = (Date.now() / 1000) - msg["date"];
+                            var data = {
+                                "chat_id": chat_id,
+                                "text": `Pong ${time.toFixed(3)}`
+                            };
+                            return await tg_user.request("sendMessage", data);
+                        }
+
+                    }
+
+                } catch (e) {
+                    var data = {
+                        "chat_id": chat_id,
+                        "text": e.message
+                    };
+                    return await tg_user.request("sendMessage", data);
+
+                }
+            }
+
 
         }
     } catch (e) {
@@ -253,9 +312,4 @@ async function startClientUser(user_id) {
     }
 }
 
-async function main() {
-    telegrambot.bot(token_bot);
-    return true;
-}
-
-main();
+telegrambot.bot(client["token_bot"]);
