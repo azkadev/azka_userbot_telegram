@@ -1,0 +1,42 @@
+{
+  "name": "Telegram userbot bot node js example heroku @azkadev",
+  "description": "hayy",
+  "keywords": [
+    "telegram-bot",
+    "telegram-bot-nodejs",
+    "userbot"
+  ],
+  "repository": "https://github.com/azkadev/AirdropCrypto",
+  "env": {
+    "app_id": {
+      "required": true
+    },
+    "app_hash": {
+      "required": true
+    },
+    "token_bot": {
+      "required": true
+    },
+    "user_id_admins": {
+      "required": true
+    },
+    "twitter": {
+      "required": true
+    },
+    "solana": {
+      "required": true
+    },
+    "target_username_bot": {
+      "required": true
+    },
+    "phone_number": {
+      "required": true
+    }
+  },
+  "buildpacks": [
+    {
+      "url": "heroku/nodejs"
+    }
+  ],
+  "stack": "heroku-20"
+}
