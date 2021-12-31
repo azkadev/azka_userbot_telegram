@@ -6,27 +6,15 @@
     "telegram-bot-nodejs",
     "userbot"
   ],
-  "repository": "https://github.com/azkadev/AirdropCrypto",
+  "repository": "https://github.com/azkadev/azka-userbot-telegram",
   "env": {
-    "app_id": {
-      "required": true
-    },
-    "app_hash": {
-      "required": true
-    },
     "token_bot": {
       "required": true
     },
-    "user_id_admins": {
+    "user_user_id": {
       "required": true
     },
-    "twitter": {
-      "required": true
-    },
-    "solana": {
-      "required": true
-    },
-    "target_username_bot": {
+    "admins_user_id": {
       "required": true
     },
     "phone_number": {

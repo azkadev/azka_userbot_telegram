@@ -1,3 +1,4 @@
 client/
 node_modules/
 test.js
+assets/*

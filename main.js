@@ -45,7 +45,7 @@ telegrambot.client.on('destroy', function () {
 
 telegrambot.on('update', async function (update) {
     try {
-        
+
         try {
             var readConfig = JSON.parse(await fs.readFile(`${process.cwd()}/./plugin/bot.json`, {
                 "encoding": "utf8"
@@ -105,6 +105,12 @@ telegrambot.on('update', async function (update) {
                                 };
                                 return await tg.request("sendMessage", data);
                             }
+                            if (RegExp("/test", "i").exec(text)) {
+                                var time = (Date.now() / 1000) - msg["date"];
+                                return await tg.sendVoice(chat_id, "./voice.ogg")
+                            }
+
+
 
                             if (RegExp("/ping", "i").exec(text)) {
                                 var time = (Date.now() / 1000) - msg["date"];
