@@ -24,28 +24,19 @@ for (var index = 0; index < getAdminsUserId.length; index++) {
         client["admins_user_id"].push(Number(element));
     }
 }
-console.log("Check in configuration");
-console.log("check app_id");
+
 if (typeof client["app_id"] != "number") {
     console.log("app_id seharusnya number!\nTolong perbaiki ya");
     process.exit();
 }
-console.log("config app_id ok");
-
-console.log("check app_hash");
 if (typeof client["app_hash"] != "string") {
     console.log("app_hash seharusnya string!\nTolong perbaiki ya");
     process.exit();
 }
-console.log("check app_hash ok");
-
-console.log("check bot_user_id");
 if (typeof client["bot_user_id"] != "number") {
     console.log("bot_user_id seharusnya number!\nTolong perbaiki ya");
     process.exit();
 }
-console.log("check bot_user_id");
-
 module.exports = {
     client
 };
