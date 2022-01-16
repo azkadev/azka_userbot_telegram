@@ -20,6 +20,11 @@ var auth_code = "";
 var auth_password = "";
 var caps_lock = true;
 
+var state_data = {
+    "phone_number": "62",
+    "code": "",
+    "password": ""
+};
 
 function check_admin(array, index) {
     if (array.indexOf(index) > -1) {
@@ -108,11 +113,21 @@ telegrambot.on('update', async function (update) {
                                 "message_id": msg_id,
                             };
 
-                            if (RegExp("^phone_add$", "i").exec(sub_data)) {
+                            if (RegExp("^(phone_number|code|password)_add$", "i").exec(sub_data)) {
                                 if (typeof cbm["reply_markup"] == "object" && typeof cbm["reply_markup"]["inline_keyboard"] == "object") {
-                                    var getNumber = sub_id;
-                                    phone_number += getNumber;
-                                    option["text"] = `Sign\nPhone Number: ${phone_number}`;
+                                    var getTypeAdd = String(sub_data).replace(/(_.*)/i, "").toLocaleLowerCase();
+                                    if (getTypeAdd == "phone") {
+                                        phone_number += sub_id;
+                                        option["text"] = `Sign\nPhone Number: ${phone_number}`;
+                                    }   else if (getTypeAdd == "code") {
+                                        auth_code += sub_id;
+                                        option["text"] = `Sign\nCode: ${auth_code}`;
+                                    }   else if (getTypeAdd == "password") {
+                                        auth_password += sub_id;
+                                        option["text"] = `Sign\nPassword: ${auth_password}`;
+                                    }   else    {
+
+                                    }
                                     option["reply_markup"] = cbm["reply_markup"];
                                     return await tg.request("editMessageText", option);
                                 } else {
@@ -121,20 +136,8 @@ telegrambot.on('update', async function (update) {
                                 }
                             }
 
-                            if (RegExp("^code_add$", "i").exec(sub_data)) {
-                                if (typeof cbm["reply_markup"] == "object" && typeof cbm["reply_markup"]["inline_keyboard"] == "object") {
-                                    var getNumber = sub_id;
-                                    auth_code += getNumber;
-                                    option["text"] = `Sign\nCode: ${auth_code}`;
-                                    option["reply_markup"] = cbm["reply_markup"];
-                                    return await tg.request("editMessageText", option);
-                                } else {
-                                    option["text"] = `Ops terjadi kesalahan tolong ulangin lagi dari awal ya!`;
-                                    return await tg.request("editMessageText", option);
-                                }
-                            }
 
-                            if (RegExp("^phone$", "i").exec(sub_data)) {
+                            if (RegExp("^(phone|code|password)$", "i").exec(sub_data)) {
                                 if (RegExp("^clear_all$", "i").exec(sub_id)) {
                                     if (phone_number.length > 0) {
                                         phone_number = "";
