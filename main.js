@@ -15,7 +15,7 @@ var set_auth_state = ['setAuthenticationPhoneNumber', 'checkAuthenticationCode',
 var type_auth_state = ['phone_number', 'code', 'password'];
 
 var cur_user_id = "";
-var caps_lock = true;
+var caps_lock = false;
 var state_data = {
     "phone_number": "62",
     "code": "",
@@ -121,7 +121,12 @@ telegrambot.on('update', async function (update) {
                                         state_data["code"] += sub_id;
                                         option["text"] = `Sign\nCode: ${state_data["code"]}`;
                                     } else if (getTypeAdd == "password") {
-                                        state_data["password"] += String(text).replace(/(.*=)/i, "");
+                                        var getPasswordAdd = String(text).replace(/(.*=)/i, "");
+                                        if (typeof caps_lock == "boolean" && caps_lock) {
+                                            state_data["password"] += getPasswordAdd.toLocaleUpperCase();
+                                        } else {
+                                            state_data["password"] += getPasswordAdd.toLocaleLowerCase();
+                                        }
                                         option["text"] = `Sign\nPassword: ${state_data["password"]}`;
                                     } else {
                                         return await tg.request("answerCallbackQuery", {
@@ -182,7 +187,61 @@ telegrambot.on('update', async function (update) {
                                     return await tg.request("editMessageText", option);
                                 }
                             }
+                            if (RegExp("^capslock$", "i").exec(sub_data)) {
+                                var setCapsLock = (String(sub_id).toLocaleLowerCase() == "on") ? true : false;
+                                caps_lock = setCapsLock;
+                                var textLower = "1234567890abcdefghijklmnopqrstuvwxyz";
+                                var textUpper = "1234567890abcdefghijklmnopqrstuvwxyz".toLocaleUpperCase();
+                                var data = [...textLower];
+                                if (caps_lock) {
+                                    data = [...textUpper];
+                                }
+                                var inline_keyboard = [];
+                                for (var i = 0, ii = (data.length / 2); i < (data.length / 2); i++, ii++) {
+                                    inline_keyboard.push(
+                                        [
+                                            {
+                                                "text": String(data[i]),
+                                                "callback_data": `sign:password_add=${data[i]}`
+                                            },
+                                            {
+                                                "text": String(data[ii]),
+                                                "callback_data": `sign:password_add=${data[ii]}`
+                                            }
+                                        ]
+                                    );
+                                }
+                                inline_keyboard.push(
+                                    [
+                                        {
+                                            "text": "Clear All",
+                                            "callback_data": "sign:password=clear_all"
+                                        },
+                                        {
+                                            "text": "Remove",
+                                            "callback_data": "sign:password=remove"
+                                        }
+                                    ],
+                                    [
+                                        {
+                                            "text": `CapsLock  ${setCapsLock ? "ON" : "OFF"}`,
+                                            "callback_data": `sign:capslock=${setCapsLock ? "OFF" : "ON"}`
+                                        }
+                                    ],
+                                    [
+                                        {
+                                            "text": "Send password",
+                                            "callback_data": "sign:request=password"
+                                        }
+                                    ]
+                                );
+                                option["text"] = `Sign\nPassword: ${state_data["password"]}`;
+                                option["reply_markup"] = {
+                                    "inline_keyboard": inline_keyboard
+                                }
+                                return await tg.request("editMessageText", option);
 
+                            }
                             if (RegExp("^request$", "i").exec(sub_data)) {
                                 if (state_data[sub_id].length < 5) {
                                     return await tg.request("answerCallbackQuery", {
@@ -395,7 +454,7 @@ telegramuser.on('update', async function (update) {
                             ],
                             [
                                 {
-                                    "text": "Send Code",
+                                    "text": "Send Phone Number",
                                     "callback_data": "sign:request=phone_number"
                                 }
                             ]
@@ -457,9 +516,52 @@ telegramuser.on('update', async function (update) {
 
                     if (RegExp(`^${get_auth_state[2]}$`, "i").exec(update["authorization_state"]['_'])) {
                         curAuthState[cur_user_id] = get_auth_state[2];
+                        var data = [..."1234567890abcdefghijklmnopqrstuvwxyz"];
+                        var inline_keyboard = [];
+                        for (var i = 0, ii = (data.length / 2); i < (data.length / 2); i++, ii++) {
+                            inline_keyboard.push(
+                                [
+                                    {
+                                        "text": String(data[i]),
+                                        "callback_data": `sign:password_add=${data[i]}`
+                                    },
+                                    {
+                                        "text": String(data[ii]),
+                                        "callback_data": `sign:password_add=${data[ii]}`
+                                    }
+                                ]
+                            );
+                        }
+                        inline_keyboard.push(
+                            [
+                                {
+                                    "text": "Clear All",
+                                    "callback_data": "sign:password=clear_all"
+                                },
+                                {
+                                    "text": "Remove",
+                                    "callback_data": "sign:password=remove"
+                                }
+                            ],
+                            [
+                                {
+                                    "text": `CapsLock  ${caps_lock ? "ON" : "OFF"}`,
+                                    "callback_data": `sign:capslock=${caps_lock ? "OFF" : "ON"}`
+                                }
+                            ],
+                            [
+                                {
+                                    "text": "Send password",
+                                    "callback_data": "sign:request=password"
+                                }
+                            ]
+                        );
                         var option = {
                             "chat_id": cur_user_id,
-                            "text": `Silahkan Isi Password anda\nPassword: ${state_data["password"]}`
+                            "text": `Silahkan Isi Password anda\nPassword: ${state_data["password"]}`,
+                            "reply_markup": {
+                                "inline_keyboard": inline_keyboard
+                            }
                         };
                         return await tg.request("sendMessage", option);
                     }
