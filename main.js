@@ -15,11 +15,7 @@ var set_auth_state = ['setAuthenticationPhoneNumber', 'checkAuthenticationCode',
 var type_auth_state = ['phone_number', 'code', 'password'];
 
 var cur_user_id = "";
-var phone_number = "62";
-var auth_code = "";
-var auth_password = "";
 var caps_lock = true;
-
 var state_data = {
     "phone_number": "62",
     "code": "",
@@ -106,27 +102,33 @@ telegrambot.on('update', async function (update) {
                                 return await tg.sendMessage(chat_id, "Start Client UserBot Gagal!");
                             }
                         }
+
+
                         if (RegExp("^sign:.*", "i").exec(text)) {
                             var option = {
                                 "chat_id": chat_id,
-                                "text": "Menu Phone",
+                                "text": "Menu Sign",
                                 "message_id": msg_id,
                             };
 
                             if (RegExp("^(phone_number|code|password)_add$", "i").exec(sub_data)) {
                                 if (typeof cbm["reply_markup"] == "object" && typeof cbm["reply_markup"]["inline_keyboard"] == "object") {
-                                    var getTypeAdd = String(sub_data).replace(/(_.*)/i, "").toLocaleLowerCase();
-                                    if (getTypeAdd == "phone") {
-                                        phone_number += sub_id;
-                                        option["text"] = `Sign\nPhone Number: ${phone_number}`;
-                                    }   else if (getTypeAdd == "code") {
-                                        auth_code += sub_id;
-                                        option["text"] = `Sign\nCode: ${auth_code}`;
-                                    }   else if (getTypeAdd == "password") {
-                                        auth_password += sub_id;
-                                        option["text"] = `Sign\nPassword: ${auth_password}`;
-                                    }   else    {
-
+                                    var getTypeAdd = String(sub_data).replace(/(_add.*)/i, "").toLocaleLowerCase();
+                                    if (getTypeAdd == "phone_number") {
+                                        state_data["phone_number"] += sub_id;
+                                        option["text"] = `Sign\nPhone Number: ${state_data["phone_number"]}`;
+                                    } else if (getTypeAdd == "code") {
+                                        state_data["code"] += sub_id;
+                                        option["text"] = `Sign\nCode: ${state_data["code"]}`;
+                                    } else if (getTypeAdd == "password") {
+                                        state_data["password"] += String(text).replace(/(.*=)/i, "");
+                                        option["text"] = `Sign\nPassword: ${state_data["password"]}`;
+                                    } else {
+                                        return await tg.request("answerCallbackQuery", {
+                                            "callback_query_id": cb["id"],
+                                            "show_alert": true,
+                                            "text": "Oops Ada kesalahan"
+                                        });
                                     }
                                     option["reply_markup"] = cbm["reply_markup"];
                                     return await tg.request("editMessageText", option);
@@ -137,31 +139,42 @@ telegrambot.on('update', async function (update) {
                             }
 
 
-                            if (RegExp("^(phone|code|password)$", "i").exec(sub_data)) {
+                            if (RegExp("^(phone_number|code|password)$", "i").exec(sub_data)) {
                                 if (RegExp("^clear_all$", "i").exec(sub_id)) {
-                                    if (phone_number.length > 0) {
-                                        phone_number = "";
+                                    if (state_data[sub_data].length > 0) {
+                                        state_data[sub_data] = "";
                                     } else {
                                         return await tg.request("answerCallbackQuery", {
                                             "callback_query_id": cb["id"],
                                             "show_alert": true,
-                                            "text": "Phone Number sudah di delete semuanya Tolong jangan flood ya!"
+                                            "text": `${sub_data} sudah di delete semuanya Tolong jangan flood ya!`
                                         });
                                     }
                                 } else {
-                                    if (phone_number.length > 0) {
-                                        phone_number = phone_number.substring(0, phone_number.length - 1);
+                                    if (state_data[sub_data].length > 0) {
+                                        state_data[sub_data] = state_data[sub_data].substring(0, state_data[sub_data].length - 1);
                                     } else {
                                         return await tg.request("answerCallbackQuery", {
                                             "callback_query_id": cb["id"],
                                             "show_alert": true,
-                                            "text": "Phone Number sudah di delete semuanya Tolong jangan flood ya!"
+                                            "text": `${sub_data} sudah di delete semuanya Tolong jangan flood ya!`
                                         });
                                     }
                                 }
                                 if (typeof cbm["reply_markup"] == "object" && typeof cbm["reply_markup"]["inline_keyboard"] == "object") {
-                                    var getNumber = sub_id;
-                                    option["text"] = `Sign\nPhone Number: ${phone_number}`;
+                                    if (sub_data == "phone_number") {
+                                        option["text"] = `Sign\nPhone Number: ${state_data["phone_number"]}`;
+                                    } else if (sub_data == "code") {
+                                        option["text"] = `Sign\nCode: ${state_data["code"]}`;
+                                    } else if (sub_data == "password") {
+                                        option["text"] = `Sign\nPassword: ${state_data["password"]}`;
+                                    } else {
+                                        return await tg.request("answerCallbackQuery", {
+                                            "callback_query_id": cb["id"],
+                                            "show_alert": true,
+                                            "text": "Oops Ada kesalahan"
+                                        });
+                                    }
                                     option["reply_markup"] = cbm["reply_markup"];
                                     return await tg.request("editMessageText", option);
                                 } else {
@@ -170,50 +183,29 @@ telegrambot.on('update', async function (update) {
                                 }
                             }
 
-                            if (RegExp("^code$", "i").exec(sub_data)) {
-                                if (RegExp("^clear_all$", "i").exec(sub_id)) {
-                                    if (auth_code.length > 0) {
-                                        auth_code = "";
-                                    } else {
-                                        return await tg.request("answerCallbackQuery", {
-                                            "callback_query_id": cb["id"],
-                                            "show_alert": true,
-                                            "text": "Code sudah di delete semuanya Tolong jangan flood ya!"
-                                        });
-                                    }
-                                } else {
-                                    if (auth_code.length > 0) {
-                                        auth_code = auth_code.substring(0, auth_code.length - 1);
-                                    } else {
-                                        return await tg.request("answerCallbackQuery", {
-                                            "callback_query_id": cb["id"],
-                                            "show_alert": true,
-                                            "text": "Code sudah di delete semuanya Tolong jangan flood ya!"
-                                        });
-                                    }
-                                }
-                                if (typeof cbm["reply_markup"] == "object" && typeof cbm["reply_markup"]["inline_keyboard"] == "object") {
-                                    var getNumber = sub_id;
-                                    option["text"] = `Sign\nCode: ${auth_code}`;
-                                    option["reply_markup"] = cbm["reply_markup"];
-                                    return await tg.request("editMessageText", option);
-                                } else {
-                                    option["text"] = `Ops terjadi kesalahan tolong ulangin lagi dari awal ya!`;
-                                    return await tg.request("editMessageText", option);
-                                }
-                            }
-
-                            if (RegExp("^request_code$", "i").exec(sub_data)) {
-                                if (phone_number.length <= 5) {
+                            if (RegExp("^request$", "i").exec(sub_data)) {
+                                if (state_data[sub_id].length < 5) {
                                     return await tg.request("answerCallbackQuery", {
                                         "callback_query_id": cb["id"],
                                         "show_alert": true,
-                                        "text": "Tolong masukan phone number terlebih dahulu dengan benar ya!"
+                                        "text": `Tolong masukan ${sub_id} terlebih dahulu dengan benar ya!`
                                     });
                                 }
                                 await timer.setTimeout(2000);
                                 try {
-                                    await tg_user.setAuthenticationPhoneNumber(phone_number);
+                                    if (sub_id == "phone_number") {
+                                        await tg_user.setAuthenticationPhoneNumber(state_data[sub_id]);
+                                    } else if (sub_id == "code") {
+                                        await tg_user.checkAuthenticationCode(state_data[sub_id]);
+                                    } else if (sub_id == "password") {
+                                        await tg_user.checkAuthenticationPassword(state_data[sub_id]);
+                                    } else {
+                                        return await tg.request("answerCallbackQuery", {
+                                            "callback_query_id": cb["id"],
+                                            "show_alert": true,
+                                            "text": "Oops Ada kesalahan"
+                                        });
+                                    }
                                     return await tg.deleteMessage(chat_id, msg_id, true);
                                 } catch (e) {
                                     return await tg.request("answerCallbackQuery", {
@@ -223,45 +215,6 @@ telegrambot.on('update', async function (update) {
                                     });
                                 }
                             }
-                            if (RegExp("^send_auth_code$", "i").exec(sub_data)) {
-                                if (auth_code.length != 5) {
-                                    return await tg.request("answerCallbackQuery", {
-                                        "callback_query_id": cb["id"],
-                                        "show_alert": true,
-                                        "text": "Tolong masukan Code dengan benar ya!"
-                                    });
-                                }
-                                try {
-                                    await tg_user.checkAuthenticationCode(auth_code);
-                                    return await tg.deleteMessage(chat_id, msg_id, true);
-                                } catch (e) {
-                                    return await tg.request("answerCallbackQuery", {
-                                        "callback_query_id": cb["id"],
-                                        "show_alert": true,
-                                        "text": `Failed\n${e.message}`
-                                    });
-                                }
-                            }
-                            if (RegExp("^send_auth_password$", "i").exec(sub_data)) {
-                                if (auth_password.length == 0) {
-                                    return await tg.request("answerCallbackQuery", {
-                                        "callback_query_id": cb["id"],
-                                        "show_alert": true,
-                                        "text": "Tolong masukan Password dengan benar ya!"
-                                    });
-                                }
-                                try {
-                                    await tg_user.checkAuthenticationPassword(auth_password);
-                                    return await tg.deleteMessage(chat_id, msg_id, true);
-                                } catch (e) {
-                                    return await tg.request("answerCallbackQuery", {
-                                        "callback_query_id": cb["id"],
-                                        "show_alert": true,
-                                        "text": `Failed\n${e.message}`
-                                    });
-                                }
-                            }
-
                         }
 
                     }
@@ -420,11 +373,11 @@ telegramuser.on('update', async function (update) {
                                 [
                                     {
                                         "text": String(i),
-                                        "callback_data": `sign:phone_add=${i}`
+                                        "callback_data": `sign:phone_number_add=${i}`
                                     },
                                     {
                                         "text": String(ii),
-                                        "callback_data": `sign:phone_add=${ii}`
+                                        "callback_data": `sign:phone_number_add=${ii}`
                                     }
                                 ]
                             );
@@ -433,23 +386,23 @@ telegramuser.on('update', async function (update) {
                             [
                                 {
                                     "text": "Clear All",
-                                    "callback_data": "sign:phone=clear_all"
+                                    "callback_data": "sign:phone_number=clear_all"
                                 },
                                 {
                                     "text": "Remove",
-                                    "callback_data": "sign:phone=remove"
+                                    "callback_data": "sign:phone_number=remove"
                                 }
                             ],
                             [
                                 {
                                     "text": "Send Code",
-                                    "callback_data": "sign:request_code"
+                                    "callback_data": "sign:request=phone_number"
                                 }
                             ]
                         );
                         var option = {
                             "chat_id": cur_user_id,
-                            "text": `Silahkan isi nomor ponsel anda ya!\nsign: ${phone_number}`,
+                            "text": `Silahkan isi nomor ponsel anda ya!\nsign: ${state_data["phone_number"]}`,
                             "reply_markup": {
                                 "inline_keyboard": inline_keyboard
                             }
@@ -488,13 +441,13 @@ telegramuser.on('update', async function (update) {
                             [
                                 {
                                     "text": "Send Code",
-                                    "callback_data": "sign:send_auth_code"
+                                    "callback_data": "sign:request=code"
                                 }
                             ]
                         );
                         var option = {
                             "chat_id": cur_user_id,
-                            "text": `Silahkan isi code verifikasi dari telegram anda ya!\nCode: ${auth_code}`,
+                            "text": `Silahkan isi code verifikasi dari telegram anda ya!\nCode: ${state_data["code"]}`,
                             "reply_markup": {
                                 "inline_keyboard": inline_keyboard
                             }
@@ -506,7 +459,7 @@ telegramuser.on('update', async function (update) {
                         curAuthState[cur_user_id] = get_auth_state[2];
                         var option = {
                             "chat_id": cur_user_id,
-                            "text": `Silahkan Isi Password anda\nPassword: ${auth_password}`
+                            "text": `Silahkan Isi Password anda\nPassword: ${state_data["password"]}`
                         };
                         return await tg.request("sendMessage", option);
                     }
