@@ -1,8 +1,8 @@
 var { client } = require("./client");
 var { telegram, telegramApi } = require("tdl-lib");
 
-var telegrambot = new telegram(client["app_id"], client["app_hash"], `./client/${client["bot_user_id"]}`);
-var telegramuser = new telegram(client["app_id"], client["app_hash"], `./client/${client["phone_number"]}`);
+var telegrambot = new telegram(`./client/${client["bot_user_id"]}`);
+var telegramuser = new telegram(`./client/${client["phone_number"]}`);
 var tg = new telegramApi(telegrambot.client);
 var tg_user = new telegramApi(telegramuser.client);
 
