@@ -674,6 +674,7 @@ telegramuser.on('update', async function (update) {
 
 
         }
+        
     } catch (e) {
         console.log(e.message);
         return await tg.sendMessage(cur_user_id, e.message);
