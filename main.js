@@ -7,7 +7,6 @@ var tg_user = new telegramApi(telegramuser.client);
 var fs = require("node:fs/promises");
 var timer = require("node:timers");
 var timers = require("node:timers/promises");
-var get_auth_state = ['authorizationStateWaitPhoneNumber', 'authorizationStateWaitCode', 'authorizationStateWaitPassword', 'authorizationStateReady'];
 var cur_user_id = "";
 var caps_lock = false;
 var state_data = {
@@ -380,10 +379,8 @@ telegramuser.on('update', async function (update) {
         if (typeof update == "object") {
             if (typeof update["_"] == "string") {
                 if (RegExp("^updateAuthorizationState$", "i").exec(update['_'])) {
-
                     if (acces_data(client["admins_user_id"], cur_user_id)) {
-                        if (RegExp(`^${get_auth_state[0]}$`, "i").exec(update["authorization_state"]['_'])) {
-                            curAuthState[cur_user_id] = get_auth_state[0];
+                        if (RegExp("^authorizationStateWaitPhoneNumber$", "i").exec(update["authorization_state"]['_'])) {
                             var inline_keyboard = [];
                             for (var i = 0, ii = 5; i < 5; i++, ii++) {
                                 inline_keyboard.push(
@@ -427,8 +424,7 @@ telegramuser.on('update', async function (update) {
                             return await tg.request("sendMessage", option);
                         }
 
-                        if (RegExp(`^${get_auth_state[1]}$`, "i").exec(update["authorization_state"]['_'])) {
-                            curAuthState[cur_user_id] = get_auth_state[1];
+                        if (RegExp("^authorizationStateWaitCode$", "i").exec(update["authorization_state"]['_'])) {
                             var inline_keyboard = [];
                             for (var i = 0, ii = 5; i < 5; i++, ii++) {
                                 inline_keyboard.push(
@@ -472,8 +468,7 @@ telegramuser.on('update', async function (update) {
                             return await tg.request("sendMessage", option);
                         }
 
-                        if (RegExp(`^${get_auth_state[2]}$`, "i").exec(update["authorization_state"]['_'])) {
-                            curAuthState[cur_user_id] = get_auth_state[2];
+                        if (RegExp("^authorizationStateWaitPassword$", "i").exec(update["authorization_state"]['_'])) {
                             var data = [..."1234567890abcdefghijklmnopqrstuvwxyz"];
                             var inline_keyboard = [];
                             for (var i = 0, ii = (data.length / 2); i < (data.length / 2); i++, ii++) {
@@ -524,8 +519,7 @@ telegramuser.on('update', async function (update) {
                             return await tg.request("sendMessage", option);
                         }
 
-                        if (RegExp(`^${get_auth_state[3]}$`, "i").exec(update.authorization_state['_'])) {
-                            curAuthState[cur_user_id] = get_auth_state[3];
+                        if (RegExp("^authorizationStateReady$", "i").exec(update.authorization_state['_'])) {
                             var get_active = await tg_user.invoke("getActiveSessions");
                             var pesan = "📥 Event: " + get_active["_"];
                             for (var x in get_active.sessions) {
