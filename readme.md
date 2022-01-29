@@ -10,7 +10,7 @@
 ## Example Create Plugin
 
 - For Update message text
-```json
+```js
 var plugins = {
     "name": "ping",
     "is_active": true,
