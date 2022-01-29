@@ -1,12 +1,11 @@
 var plugins = {
-    "name": "ping",
+    "name": "jsondump",
     "is_active": true,
     "script": async function (tg_client, update, is_userbot) {
         if (typeof update["message"] == "object") {
             if (typeof update["message"]["text"] == "string") {
-                if (RegExp("^/ping$", "i").exec(update["message"]["text"])) {
-                    var message = `Pong ${((Date.now() / 1000) - update["message"]["date"]).toFixed(3)}`;
-
+                if (RegExp("^/jsondump$", "i").exec(update["message"]["text"])) {
+                    var message = JSON.stringify(update, null, 2);
                     if (is_userbot) {
                         if (update["message"]["is_outgoing"]) {
                             return await tg_client.request("editMessageText", {

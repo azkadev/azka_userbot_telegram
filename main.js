@@ -268,30 +268,6 @@ telegrambot.on('update', async function (update) {
                     if (!is_outgoing) {
 
                         if (text) {
-
-                            if (RegExp("^/jsondump$", "i").exec(text)) {
-                                var data = {
-                                    "chat_id": chat_id,
-                                    "text": JSON.stringify(msg, null, 2)
-                                };
-                                return await tg.request("sendMessage", data);
-                            }
-                            if (RegExp("/test", "i").exec(text)) {
-                                var time = (Date.now() / 1000) - msg["date"];
-                                return await tg.sendVoice(chat_id, "./voice.ogg")
-                            }
-
-
-
-                            if (RegExp("/ping", "i").exec(text)) {
-                                var time = (Date.now() / 1000) - msg["date"];
-                                var data = {
-                                    "chat_id": chat_id,
-                                    "text": `Pong ${time.toFixed(3)}`
-                                };
-                                return await tg.request("sendMessage", data);
-                            }
-
                             if (RegExp("^/reload$", "i").exec(text)) {
                                 var result = await fs.readdir("./plugin");
                                 if (typeof result == "object" && result.length > 0) {
@@ -304,42 +280,58 @@ telegrambot.on('update', async function (update) {
                                     }
                                     if (list_file.length > 0) {
                                         var list_plugin_loaded = [];
+                                        var message = "";
                                         for (var index = 0; index < list_file.length; index++) {
                                             var loop_data = list_file[index];
                                             var plugin_load = require(`./plugin/${loop_data}`);
                                             if (plugin_load["is_active"]) {
-                                                list_plugin_loaded.push(list_plugin_loaded);
+                                                list_plugin_loaded.push(plugin_load);
+                                                if (plugin_load["name"]) {
+                                                    message += `\n${plugin_load["name"]}`;
+                                                }
                                             }
                                         }
                                         list_plugins = list_plugin_loaded;
+                                        var data = {
+                                            "chat_id": chat_id,
+                                            "text": `Succes reloaded plugins total ${list_plugins.length}\n${message}`
+                                        };
+                                        return await tg.request("sendMessage", data);
                                     } else {
-
+                                        var data = {
+                                            "chat_id": chat_id,
+                                            "text": "Oops plugin kosong"
+                                        };
+                                        return await tg.request("sendMessage", data);
                                     }
                                 }
 
                             }
 
-
-
-                            if (RegExp("^private$", "i").exec(chat_type)) {
+                            if (RegExp("/start", "i").exec(text)) {
+                                if (chat_type == "group") {
+                                    var data = {
+                                        "chat_id": chat_id,
+                                        "text": "Hay perkenalkan saya adalah robot"
+                                    };
+                                    return await tg.request("sendMessage", data);
+                                }
                                 if (acces_data(client["admins_user_id"], user_id)) {
-                                    if (RegExp("^/account$", "i").exec(text)) {
-                                        var data = {
-                                            "chat_id": chat_id,
-                                            "text": "Account",
-                                            "reply_markup": {
-                                                "inline_keyboard": [
-                                                    [
-                                                        {
-                                                            "text": "Login User Bot",
-                                                            "callback_data": "login"
-                                                        }
-                                                    ]
+                                    var data = {
+                                        "chat_id": chat_id,
+                                        "text": "Hay perkenalkan saya adalah robot",
+                                        "reply_markup": {
+                                            "inline_keyboard": [
+                                                [
+                                                    {
+                                                        "text": "Login User Bot",
+                                                        "callback_data": "login"
+                                                    }
                                                 ]
-                                            }
-                                        };
-                                        return await tg.request("sendMessage", data);
-                                    }
+                                            ]
+                                        }
+                                    };
+                                    return await tg.request("sendMessage", data);
                                 } else {
                                     return await tg.sendMessage(chat_id, "Oops command ini khusus admin tolong kamu jangan pakai ya!");
                                 }
@@ -569,22 +561,53 @@ telegramuser.on('update', async function (update) {
                 try {
 
                     if (text) {
+                        if (RegExp("^/reload$", "i").exec(text)) {
+                            var result = await fs.readdir("./plugin");
+                            if (typeof result == "object" && result.length > 0) {
+                                var list_file = [];
+                                for (var index = 0; index < result.length; index++) {
+                                    var loop_data = result[index];
+                                    if (RegExp(`^plugin-\w+\.js$`, "i").exec(loop_data)) {
+                                        list_file.push(loop_data);
+                                    }
+                                }
+                                if (list_file.length > 0) {
+                                    var list_plugin_loaded = [];
+                                    var message = "";
+                                    for (var index = 0; index < list_file.length; index++) {
+                                        var loop_data = list_file[index];
+                                        var plugin_load = require(`./plugin/${loop_data}`);
+                                        if (plugin_load["is_active"]) {
+                                            list_plugin_loaded.push(plugin_load);
+                                            if (plugin_load["name"]) {
+                                                message += `\n${plugin_load["name"]}`;
+                                            }
+                                        }
+                                    }
+                                    list_plugins = list_plugin_loaded;
+                                    if (is_outgoing) {
+                                        var data = {
+                                            "chat_id": chat_id,
+                                            "message_id": msg["message_id"],
+                                            "text": `Succes reloaded plugins total ${list_plugins.length}\n${message}`
+                                        };
+                                        return await tg_user.request("editMessageText", data);
+                                    } else {
+                                        var data = {
+                                            "chat_id": chat_id,
+                                            "text": `Succes reloaded plugins total ${list_plugins.length}\n${message}`
+                                        };
+                                        return await tg_user.request("sendMessage", data);
+                                    }
+                                } else {
+                                    var data = {
+                                        "chat_id": chat_id,
+                                        "text": "Oops plugin kosong"
+                                    };
+                                    return await tg_user.request("sendMessage", data);
+                                }
+                            }
 
-                        if (RegExp("^/jsondump$", "i").exec(text)) {
-                            var data = {
-                                "chat_id": chat_id,
-                                "text": JSON.stringify(msg, null, 2)
-                            };
-                            return await tg_user.request("sendMessage", data);
-                        }
-
-                        if (RegExp("/ping", "i").exec(text)) {
-                            var time = (Date.now() / 1000) - msg["date"];
-                            var data = {
-                                "chat_id": chat_id,
-                                "text": `Pong ${time.toFixed(3)}`
-                            };
-                            return await tg_user.request("sendMessage", data);
                         }
 
                     }
