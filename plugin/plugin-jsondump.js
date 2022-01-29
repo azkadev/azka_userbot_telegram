@@ -9,14 +9,14 @@ var plugins = {
                     if (is_userbot) {
                         if (update["message"]["is_outgoing"]) {
                             return await tg_client.request("editMessageText", {
-                                "chat_id": msg["chat"]["id"],
+                                "chat_id": update["message"]["chat"]["id"],
                                 "message_id": msg["message_id"],
                                 "text": message
                             });
                         }
                     }
                     return await tg_client.request("sendMessage", {
-                        "chat_id": msg["chat"]["id"],
+                        "chat_id": update["message"]["chat"]["id"],
                         "text": message
                     });
                 }
@@ -24,6 +24,4 @@ var plugins = {
         }
     }
 };
-module.exports = {
-    plugins
-};
+module.exports = plugins;

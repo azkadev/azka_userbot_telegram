@@ -221,7 +221,7 @@ telegrambot.on('update', async function (update) {
                                         "text": `Tolong masukan ${sub_id} terlebih dahulu dengan benar ya!`
                                     });
                                 }
-                                await timer.setTimeout(2000);
+                                await timers.setTimeout(2000);
                                 try {
                                     if (sub_id == "phone_number") {
                                         await tg_user.setAuthenticationPhoneNumber(state_data[sub_id]);
@@ -274,7 +274,7 @@ telegrambot.on('update', async function (update) {
                                     var list_file = [];
                                     for (var index = 0; index < result.length; index++) {
                                         var loop_data = result[index];
-                                        if (RegExp(`^plugin-\w+\.js$`, "i").exec(loop_data)) {
+                                        if (RegExp(`^plugin-.*\.js$`, "i").exec(loop_data)) {
                                             list_file.push(loop_data);
                                         }
                                     }
@@ -306,6 +306,16 @@ telegrambot.on('update', async function (update) {
                                     }
                                 }
 
+                            }
+
+                            if (RegExp("/plugin", "i").exec(text)) {
+                                var message = "";
+                                list_plugins.map(value => message += value["name"]);
+                                var data = {
+                                    "chat_id": chat_id,
+                                    "text": `Plugin total ${list_plugins.length}\n${message}`
+                                };
+                                return await tg.request("sendMessage", data);
                             }
 
                             if (RegExp("/start", "i").exec(text)) {
@@ -355,11 +365,21 @@ telegrambot.on('update', async function (update) {
                         try {
                             await loop_data["script"](tg, update, false);
                         } catch (e) {
+                            console.log(e);
+                            list_plugins.slice(index, 1);
+                            try {
+                                return await tg.request("sendMessage", {
+                                    "chat_id": cur_user_id,
+                                    "text": e.message
+                                });
+                            } catch (e) {
 
+                            }
                         }
                     }
                 }
             }
+
         }
     } catch (e) {
         console.log(e);
@@ -610,6 +630,24 @@ telegramuser.on('update', async function (update) {
 
                         }
 
+
+                        if (RegExp("/plugin", "i").exec(text)) {
+                            if (is_outgoing) {
+                                var data = {
+                                    "chat_id": chat_id,
+                                    "message_id": msg["message_id"],
+                                    "text": `Plugin total ${list_plugins.length}\n${message}`
+                                };
+                                return await tg_user.request("editMessageText", data);
+                            } else {
+                                var data = {
+                                    "chat_id": chat_id,
+                                    "text": `Plugin total ${list_plugins.length}\n${message}`
+                                };
+                                return await tg_user.request("sendMessage", data);
+                            }
+                        }
+
                     }
 
 
@@ -631,7 +669,16 @@ telegramuser.on('update', async function (update) {
                         try {
                             await loop_data["script"](tg_user, update, true);
                         } catch (e) {
+                            console.log(e);
+                            list_plugins.slice(index, 1);
+                            try {
+                                return await tg.request("sendMessage", {
+                                    "chat_id": cur_user_id,
+                                    "text": e.message
+                                });
+                            } catch (e) {
 
+                            }
                         }
                     }
                 }
@@ -645,4 +692,4 @@ telegramuser.on('update', async function (update) {
     }
 })
 
-telegrambot.bot(client["token_bot"]).then(res => console.log("succes login")).catch(error => console.log("failed"));
+telegrambot.bot(client["token_bot"]).then(res => console.log("succes bot")).catch(error => console.log("failed"));
