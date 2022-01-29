@@ -12,13 +12,13 @@
       "required": true
     },
     "user_user_id": {
-      "required": true
+      "required": false
     },
     "admins_user_id": {
       "required": true
     },
     "phone_number": {
-      "required": true
+      "required": false
     }
   },
   "buildpacks": [
