@@ -1,38 +1,25 @@
 var { client } = require("./client");
 var { telegram, telegramApi } = require("tdl-lib");
-
-var telegrambot = new telegram(`./client/${client["bot_user_id"]}`);
-var telegramuser = new telegram(`./client/${client["phone_number"]}`);
+var telegrambot = new telegram(`./client/${client["bot_user_id"] ?? Date.now()}`);
+var telegramuser = new telegram(`./client/${client["phone_number"] ?? Date.now()}`);
 var tg = new telegramApi(telegrambot.client);
 var tg_user = new telegramApi(telegramuser.client);
-
-var fs = require("fs/promises");
-
-var timer = require("timers/promises");
-
+var fs = require("node:fs/promises");
+var timer = require("node:timers");
+var timers = require("node:timers/promises");
 var get_auth_state = ['authorizationStateWaitPhoneNumber', 'authorizationStateWaitCode', 'authorizationStateWaitPassword', 'authorizationStateReady'];
-var set_auth_state = ['setAuthenticationPhoneNumber', 'checkAuthenticationCode', 'checkAuthenticationPassword'];
-var type_auth_state = ['phone_number', 'code', 'password'];
-
 var cur_user_id = "";
 var caps_lock = false;
 var state_data = {
-    "phone_number": "62",
+    "phone_number": client["phone_number"] ?? "62",
     "code": "",
     "password": ""
 };
-
-function check_admin(array, index) {
-    if (array.indexOf(index) > -1) {
-        return true;
-    } else {
-        return true;
-    }
-}
-
-
 function acces_data(data, check_user) {
-    if (data.indexOf(check_user) > -1) {
+    if (typeof data != "object") {
+        return false;
+    }
+    if (data.includes(check_user)) {
         return true;
     } else {
         return false;
@@ -41,28 +28,12 @@ function acces_data(data, check_user) {
 
 var curAuthState = {};
 var curAuthData = {};
-
-telegrambot.client.on('error', function (err) {
-    console.error('Got error:', JSON.stringify(err, null, 2));
-});
-
-telegrambot.client.on('destroy', function () {
-    console.log('Destroy event');
-});
+var list_plugins = [];
 
 telegrambot.on('update', async function (update) {
     try {
-
-        try {
-            var readConfig = JSON.parse(await fs.readFile(`${process.cwd()}/./plugin/bot.json`, {
-                "encoding": "utf8"
-            }));
-        } catch (e) {
-            var readConfig = false;
-        }
-
-        if (update) {
-            if (update["callback_query"]) {
+        if (typeof update == "object") {
+            if (typeof update["callback_query"] == "object") {
                 var cb = update["callback_query"];
                 var cbm = cb["message"];
                 var isText = cbm["text"] ?? "";
@@ -91,14 +62,15 @@ telegrambot.on('update', async function (update) {
                 try {
                     if (text) {
                         if (RegExp("^login$", "i").exec(text)) {
-                            var isClientUserStart = await startClientUser(user_id);
-                            if (isClientUserStart) {
+                            cur_user_id = user_id;
+                            try {
+                                await telegramuser.user();
                                 var data = {
                                     "chat_id": chat_id,
                                     "text": `Login User Bot`,
                                 };
                                 return await tg.request("sendMessage", data);
-                            } else {
+                            } catch (e) {
                                 return await tg.sendMessage(chat_id, "Start Client UserBot Gagal!");
                             }
                         }
@@ -286,8 +258,7 @@ telegrambot.on('update', async function (update) {
                 }
 
             }
-
-            if (update["message"]) {
+            if (typeof update["message"] == "object") {
                 var msg = update["message"];
                 var chat_id = msg["chat"]["id"];
                 var user_id = msg["from"]["id"];
@@ -322,6 +293,34 @@ telegrambot.on('update', async function (update) {
                                 return await tg.request("sendMessage", data);
                             }
 
+                            if (RegExp("^/reload$", "i").exec(text)) {
+                                var result = await fs.readdir("./plugin");
+                                if (typeof result == "object" && result.length > 0) {
+                                    var list_file = [];
+                                    for (var index = 0; index < result.length; index++) {
+                                        var loop_data = result[index];
+                                        if (RegExp(`^plugin-\w+\.js$`, "i").exec(loop_data)) {
+                                            list_file.push(loop_data);
+                                        }
+                                    }
+                                    if (list_file.length > 0) {
+                                        var list_plugin_loaded = [];
+                                        for (var index = 0; index < list_file.length; index++) {
+                                            var loop_data = list_file[index];
+                                            var plugin_load = require(`./plugin/${loop_data}`);
+                                            if (plugin_load["is_active"]) {
+                                                list_plugin_loaded.push(list_plugin_loaded);
+                                            }
+                                        }
+                                        list_plugins = list_plugin_loaded;
+                                    } else {
+
+                                    }
+                                }
+
+                            }
+
+
 
                             if (RegExp("^private$", "i").exec(chat_type)) {
                                 if (acces_data(client["admins_user_id"], user_id)) {
@@ -348,29 +347,6 @@ telegrambot.on('update', async function (update) {
 
                             }
                         }
-
-                        if (typeof readConfig == "object") {
-
-                            if (text && typeof readConfig["text"] == "object") {
-                                var readConfigText = readConfig["text"];
-                                for (var i = 0; i < readConfigText.length; i++) {
-                                    var loop_data = readConfigText[i];
-                                    if (typeof loop_data["trigger"] == "string") {
-                                        if (typeof loop_data["respond"] != "object") {
-                                            return;
-                                        }
-                                        if (loop_data["admin_only"]) {
-                                            if (!check_admin(client["admins_user_id"], user_id)) {
-                                                return;
-                                            }
-                                        }
-                                        var respond = loop_data["respond"];
-                                    }
-                                }
-                            }
-
-                        }
-
                     }
                 } catch (e) {
                     var data = {
@@ -378,239 +354,218 @@ telegrambot.on('update', async function (update) {
                         "text": e.message
                     };
                     return await tg.request("sendMessage", data);
-
                 }
             }
 
-        }
+            if ((typeof update["message"] == "object" || typeof update["channel_post"] == "object") && typeof list_plugins == "object" && list_plugins.length > 0) {
+                for (var index = 0; index < list_plugins.length; index++) {
+                    var loop_data = list_plugins[index];
+                    if (typeof loop_data["script"] == "function") {
+                        try {
+                            await loop_data["script"](tg, update, false);
+                        } catch (e) {
 
+                        }
+                    }
+                }
+            }
+        }
     } catch (e) {
         console.log(e);
     }
-})
-
-
-async function sendAuthClientUser(param) {
-    try {
-        await telegramuser.client.invoke(param);
-        return true;
-    } catch (e) {
-        console.log(e)
-        return false
-    }
-}
-
-telegramuser.client.on('error', function (err) {
-    console.error('Got error:', JSON.stringify(err, null, 2));
 });
-
-telegramuser.client.on('destroy', function () {
-    console.log('Destroy event');
-});
-
 
 telegramuser.on('update', async function (update) {
     try {
+        if (typeof update == "object") {
+            if (typeof update["_"] == "string") {
+                if (RegExp("^updateAuthorizationState$", "i").exec(update['_'])) {
 
-        try {
-            var readConfig = JSON.parse(await fs.readFile(`${process.cwd()}/./plugin/user.json`, {
-                "encoding": "utf8"
-            }));
-        } catch (e) {
-            var readConfig = false;
-        }
-
-        if (update) {
-            if (RegExp("^updateAuthorizationState$", "i").exec(update['_'])) {
-
-                if (check_admin(client["admins_user_id"], cur_user_id)) {
-                    if (RegExp(`^${get_auth_state[0]}$`, "i").exec(update["authorization_state"]['_'])) {
-                        curAuthState[cur_user_id] = get_auth_state[0];
-                        var inline_keyboard = [];
-                        for (var i = 0, ii = 5; i < 5; i++, ii++) {
+                    if (acces_data(client["admins_user_id"], cur_user_id)) {
+                        if (RegExp(`^${get_auth_state[0]}$`, "i").exec(update["authorization_state"]['_'])) {
+                            curAuthState[cur_user_id] = get_auth_state[0];
+                            var inline_keyboard = [];
+                            for (var i = 0, ii = 5; i < 5; i++, ii++) {
+                                inline_keyboard.push(
+                                    [
+                                        {
+                                            "text": String(i),
+                                            "callback_data": `sign:phone_number_add=${i}`
+                                        },
+                                        {
+                                            "text": String(ii),
+                                            "callback_data": `sign:phone_number_add=${ii}`
+                                        }
+                                    ]
+                                );
+                            }
                             inline_keyboard.push(
                                 [
                                     {
-                                        "text": String(i),
-                                        "callback_data": `sign:phone_number_add=${i}`
+                                        "text": "Clear All",
+                                        "callback_data": "sign:phone_number=clear_all"
                                     },
                                     {
-                                        "text": String(ii),
-                                        "callback_data": `sign:phone_number_add=${ii}`
+                                        "text": "Remove",
+                                        "callback_data": "sign:phone_number=remove"
+                                    }
+                                ],
+                                [
+                                    {
+                                        "text": "Send Phone Number",
+                                        "callback_data": "sign:request=phone_number"
                                     }
                                 ]
                             );
+                            var option = {
+                                "chat_id": cur_user_id,
+                                "text": `Silahkan isi nomor ponsel anda ya!\nsign: ${state_data["phone_number"]}`,
+                                "reply_markup": {
+                                    "inline_keyboard": inline_keyboard
+                                }
+                            };
+                            return await tg.request("sendMessage", option);
                         }
-                        inline_keyboard.push(
-                            [
-                                {
-                                    "text": "Clear All",
-                                    "callback_data": "sign:phone_number=clear_all"
-                                },
-                                {
-                                    "text": "Remove",
-                                    "callback_data": "sign:phone_number=remove"
-                                }
-                            ],
-                            [
-                                {
-                                    "text": "Send Phone Number",
-                                    "callback_data": "sign:request=phone_number"
-                                }
-                            ]
-                        );
-                        var option = {
-                            "chat_id": cur_user_id,
-                            "text": `Silahkan isi nomor ponsel anda ya!\nsign: ${state_data["phone_number"]}`,
-                            "reply_markup": {
-                                "inline_keyboard": inline_keyboard
-                            }
-                        };
-                        return await tg.request("sendMessage", option);
-                    }
 
-                    if (RegExp(`^${get_auth_state[1]}$`, "i").exec(update["authorization_state"]['_'])) {
-                        curAuthState[cur_user_id] = get_auth_state[1];
-                        var inline_keyboard = [];
-                        for (var i = 0, ii = 5; i < 5; i++, ii++) {
+                        if (RegExp(`^${get_auth_state[1]}$`, "i").exec(update["authorization_state"]['_'])) {
+                            curAuthState[cur_user_id] = get_auth_state[1];
+                            var inline_keyboard = [];
+                            for (var i = 0, ii = 5; i < 5; i++, ii++) {
+                                inline_keyboard.push(
+                                    [
+                                        {
+                                            "text": String(i),
+                                            "callback_data": `sign:code_add=${i}`
+                                        },
+                                        {
+                                            "text": String(ii),
+                                            "callback_data": `sign:code_add=${ii}`
+                                        }
+                                    ]
+                                );
+                            }
                             inline_keyboard.push(
                                 [
                                     {
-                                        "text": String(i),
-                                        "callback_data": `sign:code_add=${i}`
+                                        "text": "Clear All",
+                                        "callback_data": "sign:code=clear_all"
                                     },
                                     {
-                                        "text": String(ii),
-                                        "callback_data": `sign:code_add=${ii}`
+                                        "text": "Remove",
+                                        "callback_data": "sign:code=remove"
+                                    }
+                                ],
+                                [
+                                    {
+                                        "text": "Send Code",
+                                        "callback_data": "sign:request=code"
                                     }
                                 ]
                             );
+                            var option = {
+                                "chat_id": cur_user_id,
+                                "text": `Silahkan isi code verifikasi dari telegram anda ya!\nCode: ${state_data["code"]}`,
+                                "reply_markup": {
+                                    "inline_keyboard": inline_keyboard
+                                }
+                            };
+                            return await tg.request("sendMessage", option);
                         }
-                        inline_keyboard.push(
-                            [
-                                {
-                                    "text": "Clear All",
-                                    "callback_data": "sign:code=clear_all"
-                                },
-                                {
-                                    "text": "Remove",
-                                    "callback_data": "sign:code=remove"
-                                }
-                            ],
-                            [
-                                {
-                                    "text": "Send Code",
-                                    "callback_data": "sign:request=code"
-                                }
-                            ]
-                        );
-                        var option = {
-                            "chat_id": cur_user_id,
-                            "text": `Silahkan isi code verifikasi dari telegram anda ya!\nCode: ${state_data["code"]}`,
-                            "reply_markup": {
-                                "inline_keyboard": inline_keyboard
-                            }
-                        };
-                        return await tg.request("sendMessage", option);
-                    }
 
-                    if (RegExp(`^${get_auth_state[2]}$`, "i").exec(update["authorization_state"]['_'])) {
-                        curAuthState[cur_user_id] = get_auth_state[2];
-                        var data = [..."1234567890abcdefghijklmnopqrstuvwxyz"];
-                        var inline_keyboard = [];
-                        for (var i = 0, ii = (data.length / 2); i < (data.length / 2); i++, ii++) {
+                        if (RegExp(`^${get_auth_state[2]}$`, "i").exec(update["authorization_state"]['_'])) {
+                            curAuthState[cur_user_id] = get_auth_state[2];
+                            var data = [..."1234567890abcdefghijklmnopqrstuvwxyz"];
+                            var inline_keyboard = [];
+                            for (var i = 0, ii = (data.length / 2); i < (data.length / 2); i++, ii++) {
+                                inline_keyboard.push(
+                                    [
+                                        {
+                                            "text": String(data[i]),
+                                            "callback_data": `sign:password_add=${data[i]}`
+                                        },
+                                        {
+                                            "text": String(data[ii]),
+                                            "callback_data": `sign:password_add=${data[ii]}`
+                                        }
+                                    ]
+                                );
+                            }
                             inline_keyboard.push(
                                 [
                                     {
-                                        "text": String(data[i]),
-                                        "callback_data": `sign:password_add=${data[i]}`
+                                        "text": "Clear All",
+                                        "callback_data": "sign:password=clear_all"
                                     },
                                     {
-                                        "text": String(data[ii]),
-                                        "callback_data": `sign:password_add=${data[ii]}`
+                                        "text": "Remove",
+                                        "callback_data": "sign:password=remove"
+                                    }
+                                ],
+                                [
+                                    {
+                                        "text": `CapsLock  ${caps_lock ? "ON" : "OFF"}`,
+                                        "callback_data": `sign:capslock=${caps_lock ? "OFF" : "ON"}`
+                                    }
+                                ],
+                                [
+                                    {
+                                        "text": "Send password",
+                                        "callback_data": "sign:request=password"
                                     }
                                 ]
                             );
+                            var option = {
+                                "chat_id": cur_user_id,
+                                "text": `Silahkan Isi Password anda\nPassword: ${state_data["password"]}`,
+                                "reply_markup": {
+                                    "inline_keyboard": inline_keyboard
+                                }
+                            };
+                            return await tg.request("sendMessage", option);
                         }
-                        inline_keyboard.push(
-                            [
-                                {
-                                    "text": "Clear All",
-                                    "callback_data": "sign:password=clear_all"
-                                },
-                                {
-                                    "text": "Remove",
-                                    "callback_data": "sign:password=remove"
-                                }
-                            ],
-                            [
-                                {
-                                    "text": `CapsLock  ${caps_lock ? "ON" : "OFF"}`,
-                                    "callback_data": `sign:capslock=${caps_lock ? "OFF" : "ON"}`
-                                }
-                            ],
-                            [
-                                {
-                                    "text": "Send password",
-                                    "callback_data": "sign:request=password"
-                                }
-                            ]
-                        );
-                        var option = {
-                            "chat_id": cur_user_id,
-                            "text": `Silahkan Isi Password anda\nPassword: ${state_data["password"]}`,
-                            "reply_markup": {
-                                "inline_keyboard": inline_keyboard
-                            }
-                        };
-                        return await tg.request("sendMessage", option);
-                    }
 
-                    if (RegExp(`^${get_auth_state[3]}$`, "i").exec(update.authorization_state['_'])) {
-                        curAuthState[cur_user_id] = get_auth_state[3];
-                        var get_active = await tg_user.invoke("getActiveSessions");
-                        var pesan = "📥 Event: " + get_active["_"];
-                        for (var x in get_active.sessions) {
-                            pesan += '\n\n🔑 Api_Id: ' + get_active.sessions[x]["api_id"];
-                            pesan += '\n📱 Model: ' + get_active.sessions[x]["device_model"];
-                            pesan += '\n📲 Device: ' + get_active.sessions[x]["platform"];
-                            pesan += '\n🔧 System: ' + get_active.sessions[x]["system_version"];
-                            pesan += '\n💻 Ip: ' + get_active.sessions[x]["ip"];
-                            pesan += '\n🚪 Location: ' + get_active.sessions[x]["country"];
+                        if (RegExp(`^${get_auth_state[3]}$`, "i").exec(update.authorization_state['_'])) {
+                            curAuthState[cur_user_id] = get_auth_state[3];
+                            var get_active = await tg_user.invoke("getActiveSessions");
+                            var pesan = "📥 Event: " + get_active["_"];
+                            for (var x in get_active.sessions) {
+                                pesan += '\n\n🔑 Api_Id: ' + get_active.sessions[x]["api_id"];
+                                pesan += '\n📱 Model: ' + get_active.sessions[x]["device_model"];
+                                pesan += '\n📲 Device: ' + get_active.sessions[x]["platform"];
+                                pesan += '\n🔧 System: ' + get_active.sessions[x]["system_version"];
+                                pesan += '\n💻 Ip: ' + get_active.sessions[x]["ip"];
+                                pesan += '\n🚪 Location: ' + get_active.sessions[x]["country"];
+                            }
+                            await tg.sendMessage(cur_user_id, pesan);
+                            var getME = await tg_user.getMe();
+                            var pesan = "📥 Event: " + getME["_"];
+                            pesan += '\n\n👤 First Name: ' + getME["first_name"];
+                            if (getME["last_name"]) {
+                                pesan += '\n👤 Last Name: ' + getME["last_name"];
+                            }
+                            if (getME["username"]) {
+                                pesan += '\n🔰 Username: @' + getME["username"];
+                            }
+                            if (getME["phone_number"]) {
+                                pesan += '\n☎️ sign: ' + getME["phone_number"];
+                            }
+                            pesan += "\n";
+                            pesan += `\n- contact ${getME["is_contact"]}`;
+                            pesan += `\n- mutual_contact ${getME["is_mutual_contact"]}`;
+                            pesan += `\n- support ${getME["is_support"]}`;
+                            await tg.sendMessage(cur_user_id, pesan);
+                            var data = {
+                                "chat_id": cur_user_id,
+                                "text": "Menu bot"
+                            };
+                            return await tg.request("sendMessage", data);
                         }
-                        await tg.sendMessage(cur_user_id, pesan);
-                        var getME = await tg_user.getMe();
-                        var pesan = "📥 Event: " + getME["_"];
-                        pesan += '\n\n👤 First Name: ' + getME["first_name"];
-                        if (getME["last_name"]) {
-                            pesan += '\n👤 Last Name: ' + getME["last_name"];
-                        }
-                        if (getME["username"]) {
-                            pesan += '\n🔰 Username: @' + getME["username"];
-                        }
-                        if (getME["phone_number"]) {
-                            pesan += '\n☎️ sign: ' + getME["phone_number"];
-                        }
-                        pesan += "\n";
-                        pesan += `\n- contact ${getME["is_contact"]}`;
-                        pesan += `\n- mutual_contact ${getME["is_mutual_contact"]}`;
-                        pesan += `\n- support ${getME["is_support"]}`;
-                        await tg.sendMessage(cur_user_id, pesan);
-                        var data = {
-                            "chat_id": cur_user_id,
-                            "text": "Menu bot"
-                        };
-                        return await tg.request("sendMessage", data);
-                    }
-                } else {
-                    if (RegExp(`^(${get_auth_state[0]}|${get_auth_state[1]}${get_auth_state[2]}|${get_auth_state[3]})$`, "i").exec(update.authorization_state['_'])) {
+                    } else {
                         return await tg.sendMessage(cur_user_id, 'Kamu tidak punya akses!');
                     }
                 }
             }
-
-
-            if (update["message"]) {
+            if (typeof update["message"] == "object") {
                 var msg = update["message"];
                 var chat_id = msg["chat"]["id"];
                 var user_id = msg["from"]["id"];
@@ -639,27 +594,7 @@ telegramuser.on('update', async function (update) {
                         }
 
                     }
-                    if (typeof readConfig == "object") {
 
-                        if (text && typeof readConfig["text"] == "object") {
-                            var readConfigText = readConfig["text"];
-                            for (var i = 0; i < readConfigText.length; i++) {
-                                var loop_data = readConfigText[i];
-                                if (typeof loop_data["trigger"] == "string") {
-                                    if (typeof loop_data["respond"] != "object") {
-                                        return;
-                                    }
-                                    if (loop_data["admin_only"]) {
-                                        if (!check_admin(client["admins_user_id"], user_id)) {
-                                            return;
-                                        }
-                                    }
-                                    var respond = loop_data["respond"];
-                                }
-                            }
-                        }
-
-                    }
 
 
                 } catch (e) {
@@ -672,24 +607,25 @@ telegramuser.on('update', async function (update) {
                 }
             }
 
+            if ((typeof update["message"] == "object" || typeof update["channel_post"] == "object") && typeof list_plugins == "object" && list_plugins.length > 0) {
+                for (var index = 0; index < list_plugins.length; index++) {
+                    var loop_data = list_plugins[index];
+                    if (typeof loop_data["script"] == "function") {
+                        try {
+                            await loop_data["script"](tg_user, update, true);
+                        } catch (e) {
+
+                        }
+                    }
+                }
+            }
 
         }
-        
+
     } catch (e) {
         console.log(e.message);
         return await tg.sendMessage(cur_user_id, e.message);
     }
 })
 
-async function startClientUser(user_id) {
-    try {
-        cur_user_id = user_id;
-        var hasil = await telegramuser.user();
-        return hasil;
-    } catch (e) {
-        console.log(e);
-        return false;
-    }
-}
-
-telegrambot.bot(client["token_bot"]);
+telegrambot.bot(client["token_bot"]).then(res => console.log("succes login")).catch(error => console.log("failed"));
