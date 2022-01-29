@@ -1,5 +1,5 @@
 var plugins = {
-    "name": "azkadev",
+    "name": "ping",
     "is_active": true,
     "script": async function (tg, update, is_userbot) {
         if (typeof update["message"] == "object") {

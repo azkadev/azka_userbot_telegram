@@ -1,13 +1,11 @@
 var client = {
-    "app_id": Number(process.env.app_id ?? 5220087),
-    "app_hash": String(process.env.app_hash ?? "0c21ac5e2bec1cce2665bc81739d7bb8"),
     "token_bot": String(process.env.token_bot ?? ""),
     "bot_user_id": Number(String(process.env.token_bot).split(":")[0]),
     "user_user_id": Number(process.env.user_user_id ?? 0),
     "phone_number": String(process.env.phone_number ?? "62812345678"),
     "admins_user_id": [],
     "version": {
-        "userbot": "v0.0.0 AzkaUserBot",
+        "userbot": "v0.0.3 AzkaUserBot",
         "developer": "@azkadev",
         "links": {
             "github": "https://github.com/azkadev",
@@ -24,18 +22,10 @@ for (var index = 0; index < getAdminsUserId.length; index++) {
         client["admins_user_id"].push(Number(element));
     }
 }
-
-if (typeof client["app_id"] != "number") {
-    console.log("app_id seharusnya number!\nTolong perbaiki ya");
-    process.exit();
-}
-if (typeof client["app_hash"] != "string") {
-    console.log("app_hash seharusnya string!\nTolong perbaiki ya");
-    process.exit();
-}
-if (typeof client["bot_user_id"] != "number") {
-    console.log("bot_user_id seharusnya number!\nTolong perbaiki ya");
-    process.exit();
+if (!client["token_bot"]){
+    throw {
+        "message": "token bot is false"
+    };
 }
 module.exports = {
     client

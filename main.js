@@ -460,7 +460,7 @@ telegramuser.on('update', async function (update) {
                             );
                             var option = {
                                 "chat_id": cur_user_id,
-                                "text": `Silahkan isi code verifikasi dari telegram anda ya!\nCode: ${state_data["code"]}`,
+                                "text": `Silahkan isi code verifikasi dari telegram anda ya!\nPhone_number:${state_data["phone_number"]}\nCode: ${state_data["code"]}`,
                                 "reply_markup": {
                                     "inline_keyboard": inline_keyboard
                                 }
