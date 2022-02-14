@@ -18,7 +18,7 @@ var state_data = {
 };
 function acces_data(data, check_user) {
     if (typeof data != "object") {
-        return false;
+        data = [];
     }
     if (data.includes(check_user)) {
         return true;
