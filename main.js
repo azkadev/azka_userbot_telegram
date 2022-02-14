@@ -1,9 +1,11 @@
 var { client } = require("./client");
 var { telegram, telegramApi } = require("tdl-lib");
-var telegrambot = new telegram(`./client/${client["bot_user_id"] ?? Date.now()}`);
-var telegramuser = new telegram(`./client/${client["phone_number"] ?? Date.now()}`);
-var tg = new telegramApi(telegrambot.client);
-var tg_user = new telegramApi(telegramuser.client);
+var tg = new telegram(`./client/${client["bot_user_id"] ?? Date.now()}`, {
+    "pathTdLib": "./libtdjson.so"
+});
+var tg_user = new telegram(`./client/${client["phone_number"] ?? Date.now()}`, {
+    "pathTdLib": "./libtdjson.so"
+});
 var fs = require("node:fs/promises");
 var timer = require("node:timers");
 var timers = require("node:timers/promises");
@@ -25,11 +27,9 @@ function acces_data(data, check_user) {
     }
 }
 
-var curAuthState = {};
-var curAuthData = {};
 var list_plugins = [];
 
-telegrambot.on('update', async function (update) {
+tg.on('update', async function (update) {
     try {
         if (typeof update == "object") {
             if (typeof update["callback_query"] == "object") {
@@ -63,7 +63,7 @@ telegrambot.on('update', async function (update) {
                         if (RegExp("^login$", "i").exec(text)) {
                             cur_user_id = user_id;
                             try {
-                                await telegramuser.user();
+                                await tg_user.user();
                                 var data = {
                                     "chat_id": chat_id,
                                     "text": `Login User Bot`,
@@ -386,7 +386,7 @@ telegrambot.on('update', async function (update) {
     }
 });
 
-telegramuser.on('update', async function (update) {
+tg_user.on('update', async function (update) {
     try {
         if (typeof update == "object") {
             if (typeof update["_"] == "string") {
@@ -692,4 +692,4 @@ telegramuser.on('update', async function (update) {
     }
 })
 
-telegrambot.bot(client["token_bot"]).then(res => console.log("succes bot")).catch(error => console.log("failed"));
+tg.bot(client["token_bot"]).then(res => console.log("succes bot")).catch(error => console.log("failed"));
