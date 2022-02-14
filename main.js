@@ -1,5 +1,5 @@
 var { client } = require("./client");
-var { telegram, telegramApi } = require("tdl-lib");
+var { telegram } = require("tdl-lib");
 var tg = new telegram(`./client/${client["bot_user_id"] ?? Date.now()}`, {
     "pathTdLib": "./libtdjson.so"
 });
