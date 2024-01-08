@@ -15,6 +15,11 @@ Setelah sekian purnama saya merelease berbagai userbot ini dengan macam macam ba
 
 Buka saya tidak bisa membuat yang lebih dari ini hanya saja saya takut di buat untuk hal buruk, jadi sebagai developer indonesia saya hanya membuat repo simple userbot telegram menggunakan bahasa dart untuk menjadi sumber belajar
 
+### Information
+Buat kalian yang mau beli jasa developer / bot / userbot / app dengan fitur lebih banyak silahkan kalian kontak saya di bawah ini ya
+
+1. [AZKADEV BOT](https://t.me/azkadevbot?start=ref_gh_azka_userbot_telegram)
+
 ### Requirement
 Bahan yang di perlukan menjalankan ini 
 
@@ -23,13 +28,21 @@ Bahan yang di perlukan menjalankan ini
 
 ### Development
 
+```bash
 git clone https://github.com/azkadev/azka_userbot_telegram.git
 cd azka_userbot_telegram
+```
 
 ### Install Package
 
+```bash
 dart pub get
+```
 
 ### Run
-
+```bash
 dart run
+```
+
+### Demo
+
