@@ -1,7 +1,9 @@
 name: azka_userbot_telegram
-description: A sample command-line application.
-version: 1.0.0
-# repository: https://github.com/my_org/my_repo
+description: Azka userbot telegram simple by azka dev.
+version: 0.0.0
+repository: https://github.com/azkadev/azka_userbot_telegram.git
+homepage: https://github.com/azkadev/azka_userbot_telegram.git
+issue_tracker: https://github.com/azkadev/azka_userbot_telegram.git
 
 environment:
   sdk: ^3.2.3
@@ -10,8 +12,10 @@ environment:
 dependencies:
   general_lib: ^0.0.16
   http: ^1.1.2
+  mason_logger: ^0.2.10
   path: ^1.9.0
   telegram_client: ^0.6.0
+  translate_client: ^0.0.2
   # path: ^1.8.0
 
 dev_dependencies:

@@ -202,7 +202,7 @@ packages:
     source: hosted
     version: "1.2.0"
   mason_logger:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: mason_logger
       sha256: b8c9d94617c09d4312e4f180ba191f15024a5d2c7027df99d3cdcb4b70675f87
@@ -417,6 +417,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.6.0"
+  translate_client:
+    dependency: "direct main"
+    description:
+      name: translate_client
+      sha256: d62eb30c3169cc97d8f1efac1f8fbd862a8a12bcbfd03c9e5b7d227742d244de
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.2"
   typed_data:
     dependency: transitive
     description:
