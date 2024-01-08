@@ -20,6 +20,8 @@ Buat kalian yang mau beli jasa developer / bot / userbot / app dengan fitur lebi
 
 1. [AZKADEV BOT](https://t.me/azkadevbot?start=ref_gh_azka_userbot_telegram)
 
+Semua automatis mulai pembayaran hingga proses
+
 ### Requirement
 Bahan yang di perlukan menjalankan ini 
 
