@@ -2,6 +2,7 @@
 
 import 'dart:io';
 
+import 'package:azka_userbot_telegram/azka_userbot_telegram.dart';
 import 'package:azka_userbot_telegram/logger/logger.dart';
 
 import 'package:general_lib/general_lib.dart';
@@ -75,6 +76,7 @@ GITHUB: https://github.com/azkadev/azka_userbot_telegram
         'api_hash': '0f7a4f1ed6c06469bf0ecf70ce92b49d',
         'database_directory': database_user.path,
         'files_directory': database_user.path,
+        "use_test_dc": false,
       },
       invokeTimeOut: Duration(minutes: 1),
       delayInvoke: Duration(milliseconds: 10),
@@ -127,6 +129,11 @@ GITHUB: https://github.com/azkadev/azka_userbot_telegram
                   );
                 }
               }
+            }
+
+            if (authStateType == "authorizationStateClosed") {
+              logger.info("silahkan login lagi");
+              exit(1);
             }
 
             if (authStateType == "authorizationStateLoggingOut") {}
@@ -211,15 +218,15 @@ GITHUB: https://github.com/azkadev/azka_userbot_telegram
 
         if (update["message"] is Map) {
           Map msg = update["message"];
-          // await updateMsg(
-          //   msg,
-          //   updateTelegramClient: updateTelegramClient,
-          //   tg: tg,
-          //   tgClientData: tgClientData,
-          //   database: database,
-          // );
+          await updateMessage(
+            msg: msg,
+            tg: tg,
+            updateTelegramClient: updateTelegramClient,
+          );
         }
-      } catch (e, stack) {}
+      } catch (e, stack) {
+        logger.err("${e} ${stack}");
+      }
     },
     onError: (error, stackTrace) {
       logger.err("${error} ${stackTrace}");
