@@ -13,6 +13,7 @@ dependencies:
   general_lib: ^0.0.16
   http: ^1.1.2
   mason_logger: ^0.2.10
+  packagex: ^0.0.38
   path: ^1.9.0
   telegram_client: ^0.6.0
   translate_client: ^0.0.2
