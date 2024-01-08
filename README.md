@@ -48,3 +48,4 @@ dart run
 
 ### Demo
 
+[Screencast from 2024-01-08 19-52-34.webm](https://github.com/azkadev/azka_userbot_telegram/assets/82513502/bb895391-5581-4ecc-a403-3709696626c7)
