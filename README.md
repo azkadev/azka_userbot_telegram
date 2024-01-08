@@ -13,10 +13,10 @@ Setelah sekian purnama saya merelease berbagai userbot ini dengan macam macam ba
 
 ### Warning
 
-Buka saya tidak bisa membuat yang lebih dari ini hanya saja saya takut di buat untuk hal buruk, jadi sebagai developer indonesia saya hanya membuat repo simple userbot telegram menggunakan bahasa dart untuk menjadi sumber belajar
+**Buka saya tidak bisa membuat yang lebih dari ini hanya saja saya takut di buat untuk hal buruk, jadi sebagai developer indonesia saya hanya membuat repo simple userbot telegram menggunakan bahasa dart untuk menjadi sumber belajar**
 
 ### Information
-Buat kalian yang mau beli jasa developer / bot / userbot / app dengan fitur lebih banyak silahkan kalian kontak saya di bawah ini ya
+**Buat kalian yang mau beli jasa developer / bot / userbot / app dengan fitur lebih banyak silahkan kalian kontak saya di bawah ini ya**
 
 1. [AZKADEV BOT](https://t.me/azkadevbot?start=ref_gh_azka_userbot_telegram)
 
