@@ -9,6 +9,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "65.0.0"
+  alfred:
+    dependency: transitive
+    description:
+      name: alfred
+      sha256: "61c74bfccd41447ddb7eb76e0e1204e1b1da0c099d441d00fa8d2b86de5415e3"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.1.1"
   analyzer:
     dependency: transitive
     description:
@@ -25,6 +33,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.4.2"
+  asn1lib:
+    dependency: transitive
+    description:
+      name: asn1lib
+      sha256: "21afe4333076c02877d14f4a89df111e658a6d466cbfc802eb705eb91bd5adfd"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.5.0"
   async:
     dependency: transitive
     description:
@@ -41,6 +57,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.1"
+  clock:
+    dependency: transitive
+    description:
+      name: clock
+      sha256: cb6d7f03e1de671e34607e909a7213e31d7752be4fb66a86d29fe1eb14bfb5cf
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.1.1"
   collection:
     dependency: transitive
     description:
@@ -73,6 +97,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.0.3"
+  encrypt:
+    dependency: transitive
+    description:
+      name: encrypt
+      sha256: "62d9aa4670cc2a8798bab89b39fc71b6dfbacf615de6cf5001fb39f7e4a996a2"
+      url: "https://pub.dev"
+    source: hosted
+    version: "5.0.3"
+  ffi:
+    dependency: transitive
+    description:
+      name: ffi
+      sha256: "7bf0adc28a23d395f19f3f1eb21dd7cfd1dd9f8e1c50051c069122e6853bc878"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.1.0"
   file:
     dependency: transitive
     description:
@@ -89,6 +129,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.2.0"
+  general_lib:
+    dependency: "direct main"
+    description:
+      name: general_lib
+      sha256: acae1b3951e97a29e4fae0d0556ddf0c44ff26776d6718009a304741be3a9e59
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.16"
   glob:
     dependency: transitive
     description:
@@ -97,6 +145,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.2"
+  http:
+    dependency: "direct main"
+    description:
+      name: http
+      sha256: d4872660c46d929f6b8a9ef4e7a7eff7e49bbf0c4ec3f385ee32df5119175139
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.1.2"
   http_multi_server:
     dependency: transitive
     description:
@@ -145,6 +201,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.2.0"
+  mason_logger:
+    dependency: transitive
+    description:
+      name: mason_logger
+      sha256: b8c9d94617c09d4312e4f180ba191f15024a5d2c7027df99d3cdcb4b70675f87
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.2.10"
   matcher:
     dependency: transitive
     description:
@@ -169,6 +233,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.4"
+  mime_type:
+    dependency: transitive
+    description:
+      name: mime_type
+      sha256: "2ad6e67d3d2de9ac0f8ef5352d998fd103cb21351ae8c02fb0c78b079b37d275"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.0"
   node_preamble:
     dependency: transitive
     description:
@@ -186,13 +258,21 @@ packages:
     source: hosted
     version: "2.1.0"
   path:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: path
       sha256: "087ce49c3f0dc39180befefc60fdb4acd8f8620e5682fe2476afd0b3688bb4af"
       url: "https://pub.dev"
     source: hosted
     version: "1.9.0"
+  pointycastle:
+    dependency: transitive
+    description:
+      name: pointycastle
+      sha256: "7c1e5f0d23c9016c5bbd8b1473d0d3fb3fc851b876046039509e18e0c7485f2c"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.7.3"
   pool:
     dependency: transitive
     description:
@@ -209,6 +289,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.4"
+  queue:
+    dependency: transitive
+    description:
+      name: queue
+      sha256: "9a41ecadc15db79010108c06eae229a45c56b18db699760f34e8c9ac9b831ff9"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.1.0+2"
   shelf:
     dependency: transitive
     description:
@@ -289,6 +377,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.2.0"
+  telegram_client:
+    dependency: "direct main"
+    description:
+      name: telegram_client
+      sha256: e4f727e5f73bbe56435340538f98ecfd099c43b18bf15fdb7d842725350065bc
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.6.0"
   term_glyph:
     dependency: transitive
     description:
@@ -329,6 +425,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.3.2"
+  universal_io:
+    dependency: transitive
+    description:
+      name: universal_io
+      sha256: "1722b2dcc462b4b2f3ee7d188dad008b6eb4c40bbd03a3de451d82c78bba9aad"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.2.2"
   vm_service:
     dependency: transitive
     description:
@@ -353,6 +457,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.4.0"
+  web_ffi:
+    dependency: transitive
+    description:
+      name: web_ffi
+      sha256: "48ef8037f7bc051d11b88d0f2903e02bec21092c51833d37c3361c36e3edc4f7"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.7.2"
   web_socket_channel:
     dependency: transitive
     description:
@@ -369,6 +481,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.2.1"
+  win32:
+    dependency: transitive
+    description:
+      name: win32
+      sha256: "464f5674532865248444b4c3daca12bd9bf2d7c47f759ce2617986e7229494a8"
+      url: "https://pub.dev"
+    source: hosted
+    version: "5.2.0"
   yaml:
     dependency: transitive
     description:
