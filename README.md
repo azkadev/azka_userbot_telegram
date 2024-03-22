@@ -113,14 +113,20 @@ Dengan tim ahli yang berkomitmen, teknologi canggih, dan pendekatan holistik ter
 
 ## Cara Beli Jasa / Products 
 
-- **Lewat Telegram**
-  Jika kamu ingin membeli bisa lewat telegram
+- **Lewat Telegram Bot**
+  Jika kamu ingin membeli bisa lewat telegram automatis pembayaran hingga proses
+  (jika proses lama itu bukan **SCAM !!** kemungkinan **server down** jadi proses bisa lebih lama jika ragu tap menu report lalu isi keluhan)
   -  Buka Bot: https://t.me/GLOBAL_CORP_ORG_BOT
   -  Isi data pribadi / subscribe channel
   -  Tap Main menu pilih services / products
   -  Pilih Product / Services
   -  Pastikan coin mencukupi
   -  Isi data yang di butuhkan
+
+- **Lewat Telegram USER**
+  -  Buka: https://t.me/general_user
+  -  Ucapin apapun yang kamu butuh jasa dev / apapun
+
   
 Video Tutorial
 [![Watch the video](https://img.youtube.com/vi/TY0Y21C6asM/maxresdefault.jpg)](https://www.youtube.com/watch?v=TY0Y21C6asM)
@@ -134,12 +140,12 @@ Video Tutorial
 
   <!-- prettier-ignore-start -->
   <!-- BEGIN YOUTUBE-CARDS -->
+[![Tolong 😭 Siapapun beli satu jasa aku ntr aku kasih harga seiklasnya / ada yang mau donasi | GLOBAL](https://ytcards.demolab.com/?id=BFl2AT_pdOw&title=Tolong+%F0%9F%98%AD+Siapapun+beli+satu+jasa+aku+ntr+aku+kasih+harga+seiklasnya+%2F+ada+yang+mau+donasi+%7C+GLOBAL&lang=id&timestamp=1710988807&background_color=%230d1117&title_color=%23ffffff&stats_color=%23dedede&max_title_lines=1&width=250&border_radius=5 "Tolong 😭 Siapapun beli satu jasa aku ntr aku kasih harga seiklasnya / ada yang mau donasi | GLOBAL")](https://www.youtube.com/watch?v=BFl2AT_pdOw)
 [![Cara beli ai telegram versi bot dan cara pakai| Global Corporation](https://ytcards.demolab.com/?id=7LZhoklvS9A&title=Cara+beli+ai+telegram+versi+bot+dan+cara+pakai%7C+Global+Corporation&lang=id&timestamp=1710937415&background_color=%230d1117&title_color=%23ffffff&stats_color=%23dedede&max_title_lines=1&width=250&border_radius=5 "Cara beli ai telegram versi bot dan cara pakai| Global Corporation")](https://www.youtube.com/watch?v=7LZhoklvS9A)
 [![Ai Userbot Telegram Demo Cara Pakai Dan Beli | Global Corporation](https://ytcards.demolab.com/?id=4mAZ6EgAhUo&title=Ai+Userbot+Telegram+Demo+Cara+Pakai+Dan+Beli+%7C+Global+Corporation&lang=id&timestamp=1710936251&background_color=%230d1117&title_color=%23ffffff&stats_color=%23dedede&max_title_lines=1&width=250&border_radius=5 "Ai Userbot Telegram Demo Cara Pakai Dan Beli | Global Corporation")](https://www.youtube.com/watch?v=4mAZ6EgAhUo)
 [![CARA BELI USERBOT TELEGRAM CLOUD  | Global Corporation](https://ytcards.demolab.com/?id=uiDJwK9r3Cg&title=CARA+BELI+USERBOT+TELEGRAM+CLOUD++%7C+Global+Corporation&lang=id&timestamp=1710900440&background_color=%230d1117&title_color=%23ffffff&stats_color=%23dedede&max_title_lines=1&width=250&border_radius=5 "CARA BELI USERBOT TELEGRAM CLOUD  | Global Corporation")](https://www.youtube.com/watch?v=uiDJwK9r3Cg)
 [![Cara Top Up Automatis Menggunakan Payment Gateway Di GLOBAL BOT APP](https://ytcards.demolab.com/?id=ADqzS5ORJsU&title=Cara+Top+Up+Automatis+Menggunakan+Payment+Gateway+Di+GLOBAL+BOT+APP&lang=id&timestamp=1710721879&background_color=%230d1117&title_color=%23ffffff&stats_color=%23dedede&max_title_lines=1&width=250&border_radius=5 "Cara Top Up Automatis Menggunakan Payment Gateway Di GLOBAL BOT APP")](https://www.youtube.com/watch?v=ADqzS5ORJsU)
 [![Cara Membeli Jasa Developer / Paid Promote / ADS / dll Di Telegram Bot | Global Corporation](https://ytcards.demolab.com/?id=TY0Y21C6asM&title=Cara+Membeli+Jasa+Developer+%2F+Paid+Promote+%2F+ADS+%2F+dll+Di+Telegram+Bot+%7C+Global+Corporation&lang=id&timestamp=1710717990&background_color=%230d1117&title_color=%23ffffff&stats_color=%23dedede&max_title_lines=1&width=250&border_radius=5 "Cara Membeli Jasa Developer / Paid Promote / ADS / dll Di Telegram Bot | Global Corporation")](https://www.youtube.com/watch?v=TY0Y21C6asM)
-[![Global Userbot Telegram](https://ytcards.demolab.com/?id=Kyj1Zl04_68&title=Global+Userbot+Telegram&lang=id&timestamp=1710690464&background_color=%230d1117&title_color=%23ffffff&stats_color=%23dedede&max_title_lines=1&width=250&border_radius=5 "Global Userbot Telegram")](https://www.youtube.com/watch?v=Kyj1Zl04_68)
 <!-- END YOUTUBE-CARDS -->
   <!-- prettier-ignore-end -->
 <!-- END GLOBAL CORPORATION -->
