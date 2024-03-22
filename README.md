@@ -38,7 +38,12 @@ c2V0cy84MjUxMzUwMi9iYjg5NTM5MS01NTgxLTRlY2MtYTQwMy0zNzA5Njk2
 NjI2YzcpCg==
 
 <!-- START GLOBAL CORPORATION -->
-<h3 align="center">Global Corporation</h3>
+<h3 align="center">
+  Global Corporation
+
+  ![](https://raw.githubusercontent.com/globalcorporation/.github/main/.github/logo/global_corporation.png)
+</h3>
+
 
 <h3 align="center">
   Welcome to Global Corporation profile!
@@ -57,7 +62,6 @@ NjI2YzcpCg==
   &#8287;&#8287;&#8287;&#8287;&#8287;
 </p>
 
-
 **Global Corporation**
 
 adalah perusahaan terkemuka yang mengambil peran utama dalam mempercepat dan mempertahankan keamanan perusahaan. 
@@ -68,6 +72,84 @@ Dengan fokus yang tajam pada inovasi dan keunggulan teknologi
 
 Dengan tim ahli yang berkomitmen, teknologi canggih, dan pendekatan holistik terhadap keamanan perusahaan, Global Corporation telah menjadi acuan utama bagi perusahaan lain yang mengutamakan keamanan dan keselamatan sebagai prioritas utama dalam bisnis mereka.
 
+[![](https://raw.githubusercontent.com/globalcorporation/.github/main/.github/logo/powered.png)](https://www.youtube.com/@Global_Corporation)
+
+## Application / Product / Project Official
+
+<h3 align="center">
+  Global App
+
+  ![](https://raw.githubusercontent.com/globalcorporation/.github/main/.github/logo/global_corporation.png)
+</h3>
+
+  Super Applikasi cross platform memungkinkan anda melakukan social media / chat sekaligus tempat bisnis jual beli mencari pekerjaan
+[![](https://cdn.dribbble.com/userupload/13133188/file/original-2331747061f15217a2f16cc3d665c5b6.jpg)](https://github.com/globalcorporation/global_app)
+
+<h3 align="center">
+  Global Bot App
+
+  ![](https://raw.githubusercontent.com/globalcorporation/.github/main/.github/logo/global_corporation.png)
+</h3>
+
+  Super Applikasi cross platform memungkinkan anda menghandle banyak bot / userbot / ai untuk assistent anda sehingga memudahkan anda dalam segala urusan
+  
+[![](https://cdn.dribbble.com/userupload/13133188/file/original-2331747061f15217a2f16cc3d665c5b6.jpg)](https://github.com/globalcorporation/global_bot_app)
+
+### Global Code Editor
+
+  Applikasi Code Editor cross platform memungkinkan anda untuk coding di berbagai platform
+
+[![](https://cdn.dribbble.com/userupload/13133188/file/original-2331747061f15217a2f16cc3d665c5b6.jpg)](https://github.com/globalcorporation/global_bot_app)
+
+<h3 align="center">
+  Ads Gateway
+
+  ![](https://raw.githubusercontent.com/globalcorporation/.github/main/.github/logo/ads_gateway.png)
+</h3>
+
+  **Applikasi** Iklan Cross platform memungkinkan anda untuk meng iklankan berbagai platform dengan mudah
+
+[![](https://cdn.dribbble.com/userupload/13133188/file/original-2331747061f15217a2f16cc3d665c5b6.jpg)](https://github.com/globalcorporation/coinlox)
+
+<h3 align="center">
+  Archivon
+
+  ![](https://raw.githubusercontent.com/globalcorporation/.github/main/.github/logo/archivon.png)
+</h3>
+
+  **Applikasi** operating system based linux yang akan release
+
+[![](https://cdn.dribbble.com/userupload/13133188/file/original-2331747061f15217a2f16cc3d665c5b6.jpg)](https://github.com/globalcorporation/coinlox)
+
+<h3 align="center">
+  Coinlox
+
+  ![](https://raw.githubusercontent.com/globalcorporation/.github/main/.github/logo/coinlox.png)
+</h3>
+
+  **Applikasi** Wallet Cross Platform memungkinkan anda untuk menyimpan uang di internet dengan aman
+
+[![](https://cdn.dribbble.com/userupload/13133188/file/original-2331747061f15217a2f16cc3d665c5b6.jpg)](https://github.com/globalcorporation/coinlox)
+
+
+
+### Global Bot Telegram
+
+  Super Bot Telegram memungkinkan anda manage berbagai chat group / private / channel sekaligus tempat jual beli produk yang kami jual, anda bisa membeli layanan ini mulai IDR: 25k / bulan
+
+[![](https://cdn.dribbble.com/userupload/13133188/file/original-2331747061f15217a2f16cc3d665c5b6.jpg)](https://github.com/globalcorporation/global_bot_telegram)
+
+### Global Userbot Telegram
+
+  Super Bot Telegram memungkinkan anda manage berbagai chat group / private / channel sekaligus tempat jual beli produk yang kami jual, anda bisa membeli layanan ini mulai IDR: 25k / bulan
+
+[![](https://cdn.dribbble.com/userupload/13133188/file/original-2331747061f15217a2f16cc3d665c5b6.jpg)](https://github.com/globalcorporation/global_userbot_telegram)
+
+### Global Bot Whatsapp
+
+  Super Bot Telegram memungkinkan anda manage berbagai chat group / private / channel sekaligus tempat jual beli produk yang kami jual, anda bisa membeli layanan ini mulai IDR: 25k / bulan
+
+[![](https://cdn.dribbble.com/userupload/13133188/file/original-2331747061f15217a2f16cc3d665c5b6.jpg)](https://github.com/globalcorporation/global_bot_whatsapp)
 
 ## Social Media
 
@@ -148,4 +230,5 @@ Video Tutorial
 [![Cara Membeli Jasa Developer / Paid Promote / ADS / dll Di Telegram Bot | Global Corporation](https://ytcards.demolab.com/?id=TY0Y21C6asM&title=Cara+Membeli+Jasa+Developer+%2F+Paid+Promote+%2F+ADS+%2F+dll+Di+Telegram+Bot+%7C+Global+Corporation&lang=id&timestamp=1710717990&background_color=%230d1117&title_color=%23ffffff&stats_color=%23dedede&max_title_lines=1&width=250&border_radius=5 "Cara Membeli Jasa Developer / Paid Promote / ADS / dll Di Telegram Bot | Global Corporation")](https://www.youtube.com/watch?v=TY0Y21C6asM)
 <!-- END YOUTUBE-CARDS -->
   <!-- prettier-ignore-end -->
+
 <!-- END GLOBAL CORPORATION -->
