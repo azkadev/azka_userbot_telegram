@@ -1,21 +1,21 @@
-name: azka_userbot_telegram
-description: Azka userbot telegram simple by azka dev.
+name: userbot_telegram
+description: GENERAL FOSS userbot telegram simple by GENERAL FOSS dev.
 version: 0.0.0
-repository: https://github.com/azkadev/azka_userbot_telegram.git
-homepage: https://github.com/azkadev/azka_userbot_telegram.git
-issue_tracker: https://github.com/azkadev/azka_userbot_telegram.git
+repository: https://github.com/generalfoss/userbot_telegram.git
+homepage: https://github.com/generalfoss/userbot_telegram.git
+issue_tracker: https://github.com/generalfoss/userbot_telegram.git
 
 environment:
   sdk: ^3.2.3
 
 # Add regular dependencies here.
 dependencies:
-  general_lib: ^0.0.16
+  general_lib: ^0.0.27
   http: ^1.1.2
-  mason_logger: ^0.2.10
-  packagex: ^0.0.38
+  mason_logger: ^0.2.12
+  packagex: ^0.0.44
   path: ^1.9.0
-  telegram_client: ^0.6.0
+  telegram_client: ^0.8.0
   translate_client: ^0.0.2
   # path: ^1.8.0
 

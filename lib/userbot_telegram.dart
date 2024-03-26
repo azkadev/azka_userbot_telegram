@@ -18,4 +18,4 @@ Misal anda beli Beli source code di Slebew CORPORATION anda lapor dahulu di sleb
 
 
 <!-- END LICENSE --> */
-export "package:userbot_telegram/update/update_message.dart";
+export "package:userbot_telegram/update/update.dart";

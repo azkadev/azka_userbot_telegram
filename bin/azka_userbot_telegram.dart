@@ -1,9 +1,29 @@
+/* <!-- START LICENSE -->
+
+
+Program Ini Di buat Oleh DEVELOPER Dari PERUSAHAAN GLOBAL CORPORATION 
+Social Media: 
+
+- Youtube: https://youtube.com/@Global_Corporation 
+- Github: https://github.com/globalcorporation
+- TELEGRAM: https://t.me/GLOBAL_CORP_ORG_BOT
+
+Seluruh kode disini di buat 100% murni tanpa jiplak / mencuri kode lain jika ada akan ada link komment di baris code
+
+Jika anda mau mengedit pastikan kredit ini tidak di hapus / di ganti!
+
+Jika Program ini milik anda dari hasil beli jasa developer di (Global Corporation / apapun itu dari turunan itu jika ada kesalahan / bug / ingin update segera lapor ke sub)
+
+Misal anda beli Beli source code di Slebew CORPORATION anda lapor dahulu di slebew jangan lapor di GLOBAL CORPORATION!
+
+
+<!-- END LICENSE --> */
 // ignore_for_file: unnecessary_brace_in_string_interps, non_constant_identifier_names, empty_catches, unused_catch_stack
 
 import 'dart:io';
 
-import 'package:azka_userbot_telegram/azka_userbot_telegram.dart';
-import 'package:azka_userbot_telegram/logger/logger.dart';
+import 'package:userbot_telegram/userbot_telegram.dart';
+import 'package:userbot_telegram/logger/logger.dart';
 
 import 'package:general_lib/general_lib.dart';
 
@@ -12,10 +32,10 @@ import 'package:telegram_client/telegram_client.dart';
 
 void main(List<String> arguments) async {
   logger.info("""
-AZKA USERBOT TELEGRAM
+GENERAL FOSS USERBOT TELEGRAM
 
-SCRIPT BY AZKADEV
-GITHUB: https://github.com/azkadev/azka_userbot_telegram
+SCRIPT BY generalfoss
+GITHUB: https://github.com/generalfoss/userbot_telegram
 """
       .trim());
 
@@ -72,8 +92,6 @@ GITHUB: https://github.com/azkadev/azka_userbot_telegram
   tg.ensureInitialized(
     telegramClientTdlibOption: TelegramClientTdlibOption(
       clientOption: {
-        'api_id': 273729,
-        'api_hash': '0f7a4f1ed6c06469bf0ecf70ce92b49d',
         'database_directory': database_user.path,
         'files_directory': database_user.path,
         "use_test_dc": false,
@@ -123,7 +141,7 @@ GITHUB: https://github.com/azkadev/azka_userbot_telegram
                     "registerUser",
                     parameters: {
                       "first_name": "random name",
-                      "last_name": "AZKADEV ${DateTime.now().toString()}",
+                      "last_name": "generalfoss ${DateTime.now().toString()}",
                     },
                     clientId: updateTelegramClient.telegramClientData.tdlib_client_id,
                   );

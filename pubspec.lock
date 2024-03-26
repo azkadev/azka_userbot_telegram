@@ -141,10 +141,18 @@ packages:
     dependency: "direct main"
     description:
       name: general_lib
-      sha256: acae1b3951e97a29e4fae0d0556ddf0c44ff26776d6718009a304741be3a9e59
+      sha256: "01ac57e1f884cc17cf6c733508f4a4e9e9e24ebe9bbf0a6251a810c68ceac1d3"
       url: "https://pub.dev"
     source: hosted
-    version: "0.0.16"
+    version: "0.0.27"
+  github:
+    dependency: transitive
+    description:
+      name: github
+      sha256: "57f6ad78591f9638e903409977443093f862d25062a6b582a3c89e4ae44e4814"
+      url: "https://pub.dev"
+    source: hosted
+    version: "9.24.0"
   glob:
     dependency: transitive
     description:
@@ -193,6 +201,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.6.7"
+  json_annotation:
+    dependency: transitive
+    description:
+      name: json_annotation
+      sha256: b10a7b2ff83d83c777edba3c6a0f97045ddadd56c944e1a23a3fdf43a1bf4467
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.8.1"
   lints:
     dependency: "direct dev"
     description:
@@ -213,10 +229,10 @@ packages:
     dependency: "direct main"
     description:
       name: mason_logger
-      sha256: b8c9d94617c09d4312e4f180ba191f15024a5d2c7027df99d3cdcb4b70675f87
+      sha256: "0e90e637dcfcb7fb6c30b38e71cd41fa0e4e3df6f1da177f8251ac3f15147e9f"
       url: "https://pub.dev"
     source: hosted
-    version: "0.2.10"
+    version: "0.2.12"
   matcher:
     dependency: transitive
     description:
@@ -237,10 +253,10 @@ packages:
     dependency: transitive
     description:
       name: mime
-      sha256: e4ff8e8564c03f255408decd16e7899da1733852a9110a58fe6d1b817684a63e
+      sha256: "2e123074287cc9fd6c09de8336dae606d1ddb88d9ac47358826db698c176a1f2"
       url: "https://pub.dev"
     source: hosted
-    version: "1.0.4"
+    version: "1.0.5"
   mime_type:
     dependency: transitive
     description:
@@ -269,10 +285,10 @@ packages:
     dependency: "direct main"
     description:
       name: packagex
-      sha256: b55151c211bc504101121b369926d99fff1c189f18110977dca56cd834d5b681
+      sha256: "96f1b7773eb2199f5ab47abbc67d706e8636d8e17551e9dc19630c650c9078de"
       url: "https://pub.dev"
     source: hosted
-    version: "0.0.38"
+    version: "0.0.44"
   path:
     dependency: "direct main"
     description:
@@ -397,10 +413,10 @@ packages:
     dependency: "direct main"
     description:
       name: telegram_client
-      sha256: e4f727e5f73bbe56435340538f98ecfd099c43b18bf15fdb7d842725350065bc
+      sha256: "3786d0babf275429c4b00f1ad2c0aa084759b5633c5337a840c77be83f00d59a"
       url: "https://pub.dev"
     source: hosted
-    version: "0.6.0"
+    version: "0.8.0"
   term_glyph:
     dependency: transitive
     description:
